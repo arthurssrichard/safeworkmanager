@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${empresaDTO}" action="/empresas" method="POST">
+    <h3>Empresa</h3>
+    <label for="nome-empresa">Nome:</label>
+    <input type="text" th:field="*{nomeEmpresa}" id="nome-empresa">
+
+    <label for="cnpj-empresa">CNPJ:</label>
+    <input type="text" th:field="*{cnpjEmpresa}" id="cnpj-empresa">
+
+    <h3>Administrador:</h3>
+    <label for="administrador">Nome:</label>
+    <input type="text" th:field="*{nomeAdministrador}" id="administrador">
+
+    <label for="senha">Senha:</label>
+    <input type="password" th:field="*{senhaAdministrador}" id="senha">
+
+    <button type="submit">Iniciar</button>
+</form>
+</body>
+</html>
