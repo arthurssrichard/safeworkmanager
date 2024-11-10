@@ -24,14 +24,15 @@
             <td th:text="${funcionario.cargo.nome}"></td>
             <td th:text="${funcionario.setor.nome}"></td>
             <td th:text="${funcionario.dataAdmissao}"></td>
-            <td th:text="${funcionario.dataDemissao == null ? '(Ativo)' : funcionario.dataDemissao}"></td>
+            <td th:text="${funcionario.dataDemissao == null ? '(Ativo)' : funcionario.dataDemissao}"
+                th:classappend="${funcionario.dataDemissao == null ? 'text-muted' : ''}"></td>
             <td><a th:href="@{/funcionarios/{idFuncionario}/edit(idFuncionario = ${funcionario.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
             <td><a th:href="@{/funcionarios/{idFuncionario}/delete(idFuncionario = ${funcionario.id})}" ><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
         </tr>
         </tbody>
     </table>
     <div>
-        <a href="/riscos/new">Novo risco</a>
+        <a href="/riscos/new">Novo funcionario</a>
     </div>
 </main>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

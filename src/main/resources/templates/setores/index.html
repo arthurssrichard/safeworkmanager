@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragmentos :: head(Setores)}"></head>
-<header th:replace="~{fragmentos :: header(Setores)}"></header>
+<head th:replace="~{fragmentos :: head('Setores')}"></head>
+<header th:replace="~{fragmentos :: header('Setores')}"></header>
 <body>
     <main class="container">
         <table class="table table-hover">
@@ -10,16 +10,19 @@
                     <th scope="col">ID</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Descricao</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>Editar</th>
+                    <th>Apagar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="setor : ${setores}">
                     <th scope="col" th:text="${setor.id}"></th>
-                    <td th:text="${setor.nome}"></td>
+                    <td><a th:text="${setor.nome}"
+                           th:href="@{setores/{idSetor}(idSetor = ${setor.id})}"></a></td>
                     <td th:text="${setor.descricao}"></td>
+                    <td><a th:href="@{setores/{idSetor}/edit(idSetor = ${setor.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
+                    <td><a th:href="@{setores/{idSetor}/delete(idSetor = ${setor.id})}"><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
+
                 </tr>
             </tbody>
         </table>
@@ -27,5 +30,7 @@
             <a href="/setores/new">Novo setor</a>
         </div>
     </main>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

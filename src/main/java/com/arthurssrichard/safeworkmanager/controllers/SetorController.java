@@ -2,9 +2,11 @@ package com.arthurssrichard.safeworkmanager.controllers;
 
 import com.arthurssrichard.safeworkmanager.config.UsuarioService;
 import com.arthurssrichard.safeworkmanager.dtos.SetorDTO;
+import com.arthurssrichard.safeworkmanager.models.Funcionario;
 import com.arthurssrichard.safeworkmanager.models.Setor;
 import com.arthurssrichard.safeworkmanager.models.Usuario;
 import com.arthurssrichard.safeworkmanager.repositories.EmpresaRepository;
+import com.arthurssrichard.safeworkmanager.repositories.FuncionarioRepository;
 import com.arthurssrichard.safeworkmanager.repositories.SetorRepository;
 import com.arthurssrichard.safeworkmanager.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -29,9 +31,10 @@ import java.util.Optional;
 public class SetorController {
     @Autowired
     SetorRepository setorRepository;
-
     @Autowired
     UsuarioService usuarioService;
+    @Autowired
+    FuncionarioRepository funcionarioRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
@@ -55,6 +58,22 @@ public class SetorController {
     public ModelAndView nnew(){
         ModelAndView mv = new ModelAndView("setores/new");
         mv.addObject("setorDTO", new SetorDTO());
+        return mv;
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView show(@PathVariable int id){
+        ModelAndView mv = new ModelAndView("setores/show");
+
+        Optional<Setor> optional = this.setorRepository.findById(id);
+        if(optional.isPresent()){
+            Setor setor = optional.get();
+            mv.addObject("setor", setor);
+
+            Usuario usuario = usuarioService.getLoggedUser();
+            List<Funcionario> funcionarios = funcionarioRepository.findBySetor(setor);
+            mv.addObject("funcionarios",funcionarios);
+        }
         return mv;
     }
 

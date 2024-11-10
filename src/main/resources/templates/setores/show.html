@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Setores')}"></head>
+<header th:replace="~{fragmentos :: header('Setor '+${setor.nome})}"></header>
+    <body>
+    <main class="container">
+        <p th:text="${setor.descricao}"></p>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Setor</th>
+                <th scope="col">Admissão</th>
+                <th scope="col">Demissão</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Apagar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="funcionario : ${funcionarios}">
+                <th scope="col" th:text="${funcionario.id}"></th>
+                <td><a th:href="@{/funcionario/{idFuncionario}(idFuncionario=${funcionario.id})}" th:text="${funcionario.nome}"></a></td>
+                <td th:text="${funcionario.cargo.nome}"></td>
+                <td th:text="${funcionario.setor.nome}"></td>
+                <td th:text="${funcionario.dataAdmissao}"></td>
+                <td th:text="${funcionario.dataDemissao == null ? '(Ativo)' : funcionario.dataDemissao}"
+                    th:classappend="${funcionario.dataDemissao == null ? 'text-muted' : ''}"></td>
+                <td><a th:href="@{/funcionarios/{idFuncionario}/edit(idFuncionario = ${funcionario.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
+                <td><a th:href="@{/funcionarios/{idFuncionario}/delete(idFuncionario = ${funcionario.id})}" ><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+    </body>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </html>

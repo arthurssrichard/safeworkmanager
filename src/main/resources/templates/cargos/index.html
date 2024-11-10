@@ -10,9 +10,9 @@
                     <th scope="col">ID</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Descricao</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th scope="col">Riscos</th>
+                    <th>Editar</th>
+                    <th>Apagar</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +25,8 @@
                           th:title="${risco.descricao}"
                           th:text="${itr.index <= 0 ? '' : ', '}+${risco.nome}"></span>
                     </td>
+                    <td><a th:href="@{/cargos/{idCargo}/edit(idCargo = ${cargo.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
+                    <td><a th:href="@{/cargos/{idCargo}/delete(idCargo = ${cargo.id})}" ><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
                 </tr>
             </tbody>
         </table>
@@ -32,5 +34,7 @@
             <a href="/cargos/new">Novo cargo</a>
         </div>
     </main>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
