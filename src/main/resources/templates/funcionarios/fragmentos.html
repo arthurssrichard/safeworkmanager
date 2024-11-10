@@ -3,15 +3,28 @@
         <form th:object="${funcionarioDTO}" th:action="${action}" method="POST">
             <div class="mb-3">
                 <label for="nome">Nome</label>
-                <input type="text" th:field="nome" id="nome">
+                <input type="text" th:field="*{nome}" id="nome">
 
                 <label for="dataAdmissao">Data de admissão</label>
-                <input type="date" th:field="dataAdmissao" id="dataAdmissao">
+                <input type="date" th:field="*{dataAdmissao}" id="dataAdmissao">
 
                 <label for="dataDemissao">Data de demissão</label>
-                <input type="date" th:field="dataDemissao" id="dataDemissao">
+                <input type="date" th:field="*{dataDemissao}" id="dataDemissao">
 
-                <button type="submit"></button>
+                <label for="setor">Setor</label>
+                <select th:field="*{idSetor}" id="setor">
+                    <option th:each="setor : ${setores}"
+                            th:value="${setor.id}"
+                            th:text="${setor.nome}"></option>
+                </select>
+
+                <label for="cargo">Cargos</label>
+                <select th:field="*{idCargo}" id="cargo">
+                    <option th:each="cargo : ${cargos}"
+                            th:value="${cargo.id}"
+                            th:text="${cargo.nome}"></option>
+                </select>
+                <button type="submit">Cadastrar</button>
             </div>
         </form>
     </div>

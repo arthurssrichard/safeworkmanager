@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('SafeWorkManager')}"></head>
+<header th:replace="~{fragmentos :: header('Novo Funcionario')}"></header>
+<body>
+<main th:replace="~{funcionarios/fragmentos :: form(funcionarioDTO, '/funcionarios')}"></main>
+</body>
+</html>

@@ -4,11 +4,10 @@ import com.arthurssrichard.safeworkmanager.config.UsuarioService;
 import com.arthurssrichard.safeworkmanager.dtos.FuncionarioDTO;
 import com.arthurssrichard.safeworkmanager.dtos.RiscoDTO;
 import com.arthurssrichard.safeworkmanager.dtos.SetorDTO;
-import com.arthurssrichard.safeworkmanager.models.Funcionario;
-import com.arthurssrichard.safeworkmanager.models.Risco;
-import com.arthurssrichard.safeworkmanager.models.Setor;
-import com.arthurssrichard.safeworkmanager.models.Usuario;
+import com.arthurssrichard.safeworkmanager.models.*;
+import com.arthurssrichard.safeworkmanager.repositories.CargoRepository;
 import com.arthurssrichard.safeworkmanager.repositories.FuncionarioRepository;
+import com.arthurssrichard.safeworkmanager.repositories.SetorRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/funcionarios")
@@ -27,6 +27,10 @@ public class FuncionarioController {
     private FuncionarioRepository funcionarioRepository;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private SetorRepository setorRepository;
+    @Autowired
+    private CargoRepository cargoRepository;
 
     @GetMapping("")
     public ModelAndView index() {
@@ -40,7 +44,14 @@ public class FuncionarioController {
     @GetMapping("/new")
     public ModelAndView nnew(FuncionarioDTO funcionarioDTO) {
         ModelAndView mv = new ModelAndView("funcionarios/new");
+        Usuario usuario = usuarioService.getLoggedUser();
+
+        List<Setor> setores = setorRepository.findByEmpresa(usuario.getEmpresa());
+        List<Cargo> cargos = cargoRepository.findByEmpresa(usuario.getEmpresa());
+
         mv.addObject("funcionarioDTO", funcionarioDTO);
+        mv.addObject("cargos", cargos);
+        mv.addObject("setores", setores);
         return mv;
     }
 
@@ -50,11 +61,24 @@ public class FuncionarioController {
             return new ModelAndView("redirect:/funcionarios/new");
         }
 
-        ModelAndView mv = new ModelAndView("redirect:/setores");
+        ModelAndView mv = new ModelAndView("redirect:/funcionarios");
         Usuario usuario = usuarioService.getLoggedUser();
-        if(usuario != null){
+
+        Optional<Cargo> optionalCargo = cargoRepository.findById(funcionarioDTO.getIdCargo());
+        Optional<Setor> optionalSetor = setorRepository.findById(funcionarioDTO.getIdSetor());
+
+
+        if(usuario != null && optionalCargo.isPresent() && optionalSetor.isPresent()){
+
             Funcionario funcionario = new Funcionario();
-            // Fazer os sets
+            funcionario.setEmpresa(usuario.getEmpresa());
+
+            funcionario.setNome(funcionarioDTO.getNome());
+            funcionario.setDataAdmissao(funcionarioDTO.getDataAdmissao());
+
+            funcionario.setCargo(optionalCargo.get());
+            funcionario.setSetor(optionalSetor.get());
+
             funcionarioRepository.save(funcionario);
         }
         return mv;
