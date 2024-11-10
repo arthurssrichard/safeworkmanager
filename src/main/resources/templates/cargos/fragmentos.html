@@ -1,0 +1,81 @@
+<main class="container" th:fragment="form(cargoDTO, action)">
+    <div class="row">
+        <form th:object="${cargoDTO}" th:action="${action}" method="POST">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome: </label>
+                <input th:field="*{nome}" type="text" id="nome" required>
+
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea th:field="*{descricao}" id="descricao"></textarea>
+
+                <div>
+                    <label for="riscoSelect" class="form-label">Riscos</label>
+                    <select id="riscoSelect">
+                        <option th:each="risco : ${riscos}"
+                                th:value="${risco.id}"
+                                th:text="${risco.nome}"
+                                th:data-descricao="${risco.descricao}">
+                        </option>
+                    </select>
+                    <button type="button" id="addRiscoBtn" class="btn btn-secondary mt-2">Adicionar</button>
+
+                    <div id="container-riscos" class="mt-3">
+                        <!-- Os riscos adicionados serão inseridos aqui -->
+                    </div>
+                </div>
+
+                <!-- Campo oculto para enviar os IDs dos riscos selecionados -->
+                <input type="hidden" th:field="*{riscos}" id="riscosIds" />
+
+                <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('addRiscoBtn').addEventListener('click', function () {
+            const selectElement = document.getElementById('riscoSelect');
+            const containerRiscos = document.getElementById('container-riscos');
+            const riscosIdsInput = document.getElementById('riscosIds');
+
+            // Obter o risco selecionado no select
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const riscoId = selectedOption.value;
+            const riscoNome = selectedOption.text;
+            const riscoDescricao = selectedOption.getAttribute('data-descricao');
+
+            // Verificar se o risco já foi adicionado
+            if (containerRiscos.querySelector(`span[data-id="${riscoId}"]`)) {
+                alert('Este risco já foi adicionado.');
+                return;
+            }
+
+            // Criar um novo elemento span para o risco
+            const newRisco = document.createElement('span');
+            newRisco.setAttribute('data-id', riscoId);
+            newRisco.classList.add('d-block', 'mb-2');
+
+            newRisco.innerHTML = `
+                <p title="${riscoDescricao}" class="d-inline">${riscoNome}</p>
+                <ion-icon name="trash-outline" class="remove-btn" style="cursor: pointer;"></ion-icon>
+            `;
+
+            containerRiscos.appendChild(newRisco);
+
+            // Atualizar o campo oculto com os IDs dos riscos
+            atualizarRiscosIds();
+
+            // Adicionar evento de remover para o ícone de lixeira
+            newRisco.querySelector('.remove-btn').addEventListener('click', function () {
+                containerRiscos.removeChild(newRisco);
+                atualizarRiscosIds();
+            });
+        });
+
+        function atualizarRiscosIds() {
+            const containerRiscos = document.getElementById('container-riscos');
+            const riscos = containerRiscos.querySelectorAll('span[data-id]');
+            const riscosIds = Array.from(riscos).map(risco => risco.getAttribute('data-id'));
+            document.getElementById('riscosIds').value = riscosIds.join(',');
+        }
+    </script>
+</main>

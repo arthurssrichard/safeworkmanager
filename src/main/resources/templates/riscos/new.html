@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="~{fragmentos :: head('SafeWorkManager')}"></head>
+<header th:replace="~{fragmentos :: header('Novo risco')}"></header>
 <body>
     <main th:replace="~{riscos/fragmentos :: form(riscoDTO, '/riscos')}"></main>
 </body>

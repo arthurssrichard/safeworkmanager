@@ -1,0 +1,18 @@
+<main class="container" th:fragment="form(funcionarioDTO, action)">
+    <div class="row">
+        <form th:object="${funcionarioDTO}" th:action="${action}" method="POST">
+            <div class="mb-3">
+                <label for="nome">Nome</label>
+                <input type="text" th:field="nome" id="nome">
+
+                <label for="dataAdmissao">Data de admissão</label>
+                <input type="date" th:field="dataAdmissao" id="dataAdmissao">
+
+                <label for="dataDemissao">Data de demissão</label>
+                <input type="date" th:field="dataDemissao" id="dataDemissao">
+
+                <button type="submit"></button>
+            </div>
+        </form>
+    </div>
+</main>

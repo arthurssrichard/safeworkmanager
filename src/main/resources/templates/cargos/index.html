@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="~{fragmentos :: head('Cargos')}"></head>
+<header th:replace="~{fragmentos :: header('Cargos')}"></header>
 <body>
-    <h1>Cargos:</h1>
     <main class="container">
         <table class="table table-hover">
             <thead>
@@ -19,15 +16,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="setor : ${setores}">
-                    <th scope="col" th:text="${setor.id}"></th>
-                    <td th:text="${setor.nome}"></td>
-                    <td th:text="${setor.descricao}"></td>
+                <tr th:each="cargo : ${cargos}">
+                    <th scope="col" th:text="${cargo.id}"></th>
+                    <td th:text="${cargo.nome}"></td>
+                    <td th:text="${cargo.descricao}"></td>
+                    <td>
+                    <span th:each="risco, itr : ${cargo.riscos}"
+                          th:title="${risco.descricao}"
+                          th:text="${itr.index <= 0 ? '' : ', '}+${risco.nome}"></span>
+                    </td>
                 </tr>
             </tbody>
         </table>
         <div>
-            <a href="/setores/new">Novo setor</a>
+            <a href="/cargos/new">Novo cargo</a>
         </div>
     </main>
 </body>

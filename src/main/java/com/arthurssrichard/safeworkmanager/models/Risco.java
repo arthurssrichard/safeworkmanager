@@ -18,6 +18,9 @@ public class Risco {
     @ManyToMany(mappedBy = "riscos")
     private Set<Cargo> cargos = new HashSet<>();
 
+    @OneToMany(mappedBy = "risco", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Agente> agentes = new HashSet<>();
+
     @Column(nullable = false)
     private String nome;
 
@@ -70,5 +73,13 @@ public class Risco {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public Set<Agente> getAgentes() {
+        return agentes;
+    }
+
+    public void setAgentes(Set<Agente> agentes) {
+        this.agentes = agentes;
     }
 }

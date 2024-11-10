@@ -1,10 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="~{fragmentos :: head('SafeWorkManager')}"></head>
+<header th:replace="~{fragmentos :: header('Riscos')}"></header>
 <body>
-    <h1>Riscos</h1>
+    <main class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descricao</th>
+                <th scope="col">Agentes</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Apagar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="risco : ${riscos}">
+                <th scope="col" th:text="${risco.id}"></th>
+                <td><a th:href="@{/riscos/{idRisco}(idRisco=${risco.id})}" th:text="${risco.nome}"></a></td>
+                <td th:text="${risco.descricao}"></td>
+                <td>
+                    <span th:each="agente, itr : ${risco.agentes}"
+                          th:title="${agente.descricao}"
+                          th:text="${itr.index <= 0 ? '' : ', '}+${agente.nome}"></span>
+                </td>
+                <td><a th:href="@{/riscos/{idRisco}/edit(idRisco = ${risco.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
+                <td><a th:href="@{/riscos/{idRisco}/delete(idRisco = ${risco.id})}" ><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <a href="/riscos/new">Novo risco</a>
+        </div>
+    </main>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
