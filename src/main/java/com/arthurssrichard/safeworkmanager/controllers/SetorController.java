@@ -15,12 +15,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/setores")
@@ -38,7 +40,8 @@ public class SetorController {
     @GetMapping("")
     public ModelAndView index(){
         ModelAndView mv = new ModelAndView("setores/index");
-        List<Setor> setores = setorRepository.findAll();
+        Usuario usuario = usuarioService.getLoggedUser();
+        List<Setor> setores = setorRepository.findByEmpresa(usuario.getEmpresa());
 
         for(Setor setor : setores){
             System.out.println(setor);
@@ -57,18 +60,8 @@ public class SetorController {
 
     @PostMapping("")
     public ModelAndView create(@Valid SetorDTO setorDTO, BindingResult bindingResult){
-        System.out.println("************** DEBUG NEW SETOR**********************");
-        System.out.println("************** DEBUG NEW SETOR**********************");
-        System.out.println("************** DEBUG NEW SETOR**********************");
-
-
         ModelAndView mv = new ModelAndView("redirect:/setores");
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        Usuario usuario = usuarioRepository.findByNome(username);
-
+        Usuario usuario = usuarioService.getLoggedUser();
         if(usuario != null){
             Setor setor = new Setor();
             setor.setNome(setorDTO.getNome());
@@ -77,7 +70,20 @@ public class SetorController {
 
             setorRepository.save(setor);
         }
-
         return mv;
+    }
+
+    @GetMapping("/{id}/edit")
+    public ModelAndView edit(@PathVariable int id, @Valid SetorDTO setorDTO){
+        Optional<Setor> optional = setorRepository.findById(id);
+        if(optional.isPresent()){
+            Setor setor = optional.get();
+            ModelAndView mv = new ModelAndView("setores/edit");
+
+            return mv;
+        }else{
+            System.out.println("Setor não encontrado");
+            return new ModelAndView("redirect:/setores");
+        }
     }
 }

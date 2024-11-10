@@ -3,6 +3,8 @@ package com.arthurssrichard.safeworkmanager.config;
 import com.arthurssrichard.safeworkmanager.models.Usuario;
 import com.arthurssrichard.safeworkmanager.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +29,12 @@ public class UsuarioService implements UserDetailsService {
                 .password(usuario.getSenha()) // a senha já está codificada com bcrypt
                 .roles(usuario.getNivelAcesso().toString()) // pode ser ADMINISTRADOR, por exemplo
                 .build();
+    }
+
+    public Usuario getLoggedUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return usuarioRepository.findByNome(username);
     }
 }
 

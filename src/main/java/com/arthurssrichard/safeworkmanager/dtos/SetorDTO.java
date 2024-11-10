@@ -14,9 +14,6 @@ public class SetorDTO {
 
     private String descricao;
 
-
-
-
     public int getEmpresaId() {
         return empresaId;
     }

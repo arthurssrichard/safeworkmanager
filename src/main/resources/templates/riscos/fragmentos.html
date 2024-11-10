@@ -1,0 +1,66 @@
+<main class="container" th:fragment="form(riscoDTO, action)">
+  <div class="row">
+    <form th:object="${riscoDTO}" th:action="${action}" method="POST">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome: </label>
+        <input type="text" th:field="*{nome}" id="nome" required>
+
+        <label for="descricao" class="form-label">Descrição</label>
+        <textarea th:field="*{descricao}" id="descricao"></textarea>
+
+        <label for="observacao" class="form-label">Observação</label>
+        <input type="text" th:field="*{observacao}" id="observacao" required>
+
+        <hr>
+
+        <h4>Agentes de Risco</h4>
+        <table id="agentesTable">
+          <thead>
+          <tr>
+            <th>Nome do Agente</th>
+            <th>Descrição do Agente</th>
+            <th>Ação</th>
+          </tr>
+          </thead>
+          <tbody id="agentesTableBody">
+          </tbody>
+        </table>
+        <button type="button" id="addAgentBtn" class="btn btn-secondary mt-2">Adicionar Agente</button>
+
+        <hr>
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    // JavaScript para adicionar novas linhas na tabela
+    document.getElementById('addAgentBtn').addEventListener('click', function () {
+      // Cria uma nova linha para os agentes
+      const tableBody = document.getElementById('agentesTableBody');
+      const rowCount = tableBody.children.length;
+      const newRow = document.createElement('tr');
+
+      newRow.innerHTML = `
+        <td><input type="text" name="agenteNome[${rowCount}]"></td>
+        <td><input type="text" name="agenteDescricao[${rowCount}]"></td>
+        <td><button type="button" class="btn btn-danger remove-btn">Remover</button></td>
+    `;
+
+      tableBody.appendChild(newRow);
+
+      // Adiciona o evento de remover para o botão "Remover"
+      newRow.querySelector('.remove-btn').addEventListener('click', function () {
+        tableBody.removeChild(newRow);
+      });
+    });
+
+    // JavaScript para remover uma linha existente
+    document.querySelectorAll('.remove-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        const tableBody = document.getElementById('agentesTableBody');
+        const row = this.parentElement.parentElement;
+        tableBody.removeChild(row);
+      });
+    });
+  </script>
+</main>
