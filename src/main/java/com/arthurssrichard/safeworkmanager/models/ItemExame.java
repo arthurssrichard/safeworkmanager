@@ -25,5 +25,5 @@ public class ItemExame {
 
     private Double resultadoValorMinimo;
     private Double resultadoValorMaximo;
-    private Double resultadoBooleano;
+    private boolean resultadoBooleano;
 }

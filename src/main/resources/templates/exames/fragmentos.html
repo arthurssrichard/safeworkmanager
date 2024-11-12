@@ -1,0 +1,84 @@
+<main class="container" th:fragment="form(exameDTO, action)">
+    <div class="row">
+        <form th:object="${exameDTO}" th:action="${action}" method="POST">
+            <div class="mb-3">
+
+                <label for="nome">Nome</label>
+                <input type="text" th:field="*{nome}" id="nome">
+
+                <label for="descricao">Descrição</label>
+                <textarea th:field="*{descricao}" id="descricao"></textarea>
+
+                <div class="row">
+                    <div class="col-2">
+                        <button type="button" class="btn btn-secondary" id="newNumerico">Novo item</button><br>
+                        <small class="text-secondary">Resultado Numérico</small>
+                    </div>
+
+                    <div class="col-2">
+                        <button type="button" class="btn btn-secondary" id="newBooleano">Novo item</button><br>
+                        <small class="text-secondary">Resultado Booleano</small>
+                    </div>
+                </div>
+                <div id="itensExame" class="row gap-10">
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+            </div>
+        </form>
+    </div>
+    <script>
+        function toggleDado() {
+            var tipoDado = document.getElementById('tipoDado').value;
+            var valorNumerico = document.getElementById('valor-numerico');
+            var valorBooleano = document.getElementById('valor-booleano');
+
+            if (tipoDado === 'NUMERICO') {
+                valorNumerico.classList.remove('d-none');
+                valorBooleano.classList.add('d-none');
+            } else {
+                valorNumerico.classList.add('d-none');
+                valorBooleano.classList.remove('d-none');
+            }
+        }
+
+        document.getElementById('newBooleano').addEventListener('click',function(){
+            const divItens = document.getElementById('itensExame');
+            const novoItem = document.createElement('div');
+            novoItem.innerHTML = `
+                            <label for="nome-dado-booleano">Nome do dado</label>
+                            <input type="text" name="nomeDado" id="nome-dado-booleano">
+                            <label for="resultadoBooleanoEsperado">Resultado esperado (booleano)</label>
+                            <select name="resultadoBooleanoEsperado" id="resultadoBooleanoEsperado">
+                                <option value="true">Sim</option>
+                                <option value="false">Não</option>
+                            </select>
+                                    `;
+            divItens.appendChild(novoItem);
+        });
+
+        document.getElementById('newNumerico').addEventListener('click',function(){
+            const divItens = document.getElementById('itensExame');
+            const novoItem = document.createElement('div');
+            novoItem.innerHTML = `
+                            <label for="nome-dado-numerico">Nome do dado</label>
+                            <input type="text" name="nomeDado" id="nome-dado-numerico">
+                            <label for="resultadoNumericoEsperado">Resultado esperado (numérico)</label>
+                            <fieldset id="resultadoNumericoEsperado" class="row">
+                                <div class="col-6">
+                                    <label for="minimo">Minimo</label>
+                                    <input id="minimo" type="number" step="0.01" min="0" placeholder="Ex: 13">
+                                </div>
+                                <div class="col-6">
+                                    <label for="maximo">Maximo</label>
+                                    <input id="maximo" type="number" step="0.01" min="0" placeholder="Ex: 16">
+                                </div>
+                            </fieldset>
+                                `;
+            divItens.appendChild(novoItem);
+        });
+
+    </script>
+</main>
