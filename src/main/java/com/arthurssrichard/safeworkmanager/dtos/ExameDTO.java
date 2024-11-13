@@ -10,74 +10,68 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public class ExameDTO {
-
-    @NotBlank
     private String nome;
-    @NotNull
     private String descricao;
-    @NotBlank
-    private List<String> nomesDados;
-    @NotBlank
-    private List<TipoDado> tiposDados;
+    private List<String> nomeDadoNumerico;
+    private List<Double> minimoEsperado;
+    private List<Double> maximoEsperado;
 
-    private List<Double> resultadosValorMinimo;
-    private List<Double> resultadosValorMaximo;
-    private List <Boolean> resultadosBooleanos;
+    private List<String> nomeDadoBooleano;
+    private List<String> resultadoBooleanoEsperado;
 
-
-    public @NotBlank String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(@NotBlank String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public @NotNull String getDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(@NotNull String descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
-    public @NotBlank List<String> getNomesDados() {
-        return nomesDados;
+    public List<String> getNomeDadoNumerico() {
+        return nomeDadoNumerico;
     }
 
-    public void setNomesDados(@NotBlank List<String> nomesDados) {
-        this.nomesDados = nomesDados;
+    public void setNomeDadoNumerico(List<String> nomeDadoNumerico) {
+        this.nomeDadoNumerico = nomeDadoNumerico;
     }
 
-    public @NotBlank List<TipoDado> getTiposDados() {
-        return tiposDados;
+    public List<Double> getMinimoEsperado() {
+        return minimoEsperado;
     }
 
-    public void setTiposDados(@NotBlank List<TipoDado> tiposDados) {
-        this.tiposDados = tiposDados;
+    public void setMinimoEsperado(List<Double> minimoEsperado) {
+        this.minimoEsperado = minimoEsperado;
     }
 
-    public List<Double> getResultadosValorMinimo() {
-        return resultadosValorMinimo;
+    public List<Double> getMaximoEsperado() {
+        return maximoEsperado;
     }
 
-    public void setResultadosValorMinimo(List<Double> resultadosValorMinimo) {
-        this.resultadosValorMinimo = resultadosValorMinimo;
+    public void setMaximoEsperado(List<Double> maximoEsperado) {
+        this.maximoEsperado = maximoEsperado;
     }
 
-    public List<Double> getResultadosValorMaximo() {
-        return resultadosValorMaximo;
+    public List<String> getNomeDadoBooleano() {
+        return nomeDadoBooleano;
     }
 
-    public void setResultadosValorMaximo(List<Double> resultadosValorMaximo) {
-        this.resultadosValorMaximo = resultadosValorMaximo;
+    public void setNomeDadoBooleano(List<String> nomeDadoBooleano) {
+        this.nomeDadoBooleano = nomeDadoBooleano;
     }
 
-    public List<Boolean> getResultadosBooleanos() {
-        return resultadosBooleanos;
+    public List<String> getResultadoBooleanoEsperado() {
+        return resultadoBooleanoEsperado;
     }
 
-    public void setResultadosBooleanos(List<Boolean> resultadosBooleanos) {
-        this.resultadosBooleanos = resultadosBooleanos;
+    public void setResultadoBooleanoEsperado(List<String> resultadoBooleanoEsperado) {
+        this.resultadoBooleanoEsperado = resultadoBooleanoEsperado;
     }
 }

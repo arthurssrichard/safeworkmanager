@@ -11,18 +11,13 @@
 
                 <div class="row">
                     <div class="col-2">
-                        <button type="button" class="btn btn-secondary" id="newNumerico">Novo item</button><br>
-                        <small class="text-secondary">Resultado Numérico</small>
+                        <button type="button" class="btn btn-secondary" id="newNumerico">+ Item numérico</button><br>
                     </div>
-
                     <div class="col-2">
-                        <button type="button" class="btn btn-secondary" id="newBooleano">Novo item</button><br>
-                        <small class="text-secondary">Resultado Booleano</small>
+                        <button type="button" class="btn btn-secondary" id="newBooleano">+ Item booleano</button><br>
                     </div>
                 </div>
-                <div id="itensExame" class="row gap-10">
-
-                </div>
+                <div id="itensExame" class="row gap-10"></div>
 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
 
@@ -47,38 +42,61 @@
         document.getElementById('newBooleano').addEventListener('click',function(){
             const divItens = document.getElementById('itensExame');
             const novoItem = document.createElement('div');
+            const boolDivCount = divItens.getElementsByClassName('item-booleano').length;
             novoItem.innerHTML = `
                             <label for="nome-dado-booleano">Nome do dado</label>
-                            <input type="text" name="nomeDado" id="nome-dado-booleano">
-                            <label for="resultadoBooleanoEsperado">Resultado esperado (booleano)</label>
-                            <select name="resultadoBooleanoEsperado" id="resultadoBooleanoEsperado">
+                            <input type="text" name="nomeDadoBooleano[${boolDivCount}]" id="nome-dado-booleano">
+                            <label>Resultado esperado (booleano)</label>
+                            <select name="resultadoBooleanoEsperado[${boolDivCount}]">
                                 <option value="true">Sim</option>
                                 <option value="false">Não</option>
                             </select>
+                            <button type="button" class="btn btn-danger remove-btn">Remover</button>
                                     `;
             divItens.appendChild(novoItem);
+            novoItem.classList.add('p-2','mb-2','bg-light','shadow-sm','rounded','item-booleano');
+
+            // Adiciona o evento de remover para o botão "Remover"
+            novoItem.querySelector('.remove-btn').addEventListener('click', function () {
+                divItens.removeChild(novoItem);
+            });
         });
 
         document.getElementById('newNumerico').addEventListener('click',function(){
             const divItens = document.getElementById('itensExame');
             const novoItem = document.createElement('div');
+            const numDivCount = divItens.getElementsByClassName('item-numerico').length;
             novoItem.innerHTML = `
                             <label for="nome-dado-numerico">Nome do dado</label>
-                            <input type="text" name="nomeDado" id="nome-dado-numerico">
+                            <input type="text" name="nomeDadoNumerico[${numDivCount}]" id="nome-dado-numerico">
                             <label for="resultadoNumericoEsperado">Resultado esperado (numérico)</label>
                             <fieldset id="resultadoNumericoEsperado" class="row">
                                 <div class="col-6">
-                                    <label for="minimo">Minimo</label>
-                                    <input id="minimo" type="number" step="0.01" min="0" placeholder="Ex: 13">
+                                    <label>Minimo</label>
+                                    <input name="minimoEsperado[${numDivCount}]" type="number" step="0.01" min="0" placeholder="Ex: 13">
                                 </div>
                                 <div class="col-6">
-                                    <label for="maximo">Maximo</label>
-                                    <input id="maximo" type="number" step="0.01" min="0" placeholder="Ex: 16">
+                                    <label>Maximo</label>
+                                    <input name="maximoEsperado[${numDivCount}]" type="number" step="0.01" min="0" placeholder="Ex: 16">
                                 </div>
                             </fieldset>
+                            <button type="button" class="btn btn-danger remove-btn">Remover</button>
                                 `;
             divItens.appendChild(novoItem);
+            novoItem.classList.add('p-2','mb-2','bg-light','shadow-sm','rounded','item-numerico');
+
+            // Adiciona o evento de remover para o botão "Remover"
+            novoItem.querySelector('.remove-btn').addEventListener('click', function () {
+                divItens.removeChild(novoItem);
+            });
         });
 
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const divItens = document.getElementById('itensExame');
+                const div = this.parentElement;
+                divItens.removeChild(div);
+            });
+        });
     </script>
 </main>
