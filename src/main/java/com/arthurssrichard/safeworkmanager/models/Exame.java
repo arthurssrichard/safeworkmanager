@@ -23,6 +23,9 @@ public class Exame {
 
     private String descricao;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ItemExame> exames = new HashSet<>();
+
 
     public int getId() {
         return id;

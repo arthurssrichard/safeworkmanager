@@ -3,11 +3,29 @@
         <form th:object="${exameDTO}" th:action="${action}" method="POST">
             <div class="mb-3">
 
-                <label for="nome">Nome</label>
-                <input type="text" th:field="*{nome}" id="nome">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="nome">Nome</label>
+                        <input type="text" th:field="*{nome}" id="nome">
 
-                <label for="descricao">Descrição</label>
-                <textarea th:field="*{descricao}" id="descricao"></textarea>
+                        <label for="descricao">Descrição</label>
+                        <textarea th:field="*{descricao}" id="descricao"></textarea>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="cargosSelect">Cargos</label>
+                        <select id="cargosSelect">
+                            <option th:each="cargo : ${cargosList}"
+                                    th:value="${cargo.id}"
+                                    th:text="${cargo.nome}"
+                                    th:data-descricao="${cargo.descricao}"></option>
+                        </select>
+                        <button type="button" id="addCargoBtn" class="btn btn-secondary mt-2">Adicionar</button>
+                        <div id="container-cargos">
+
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-2">
@@ -19,6 +37,7 @@
                 </div>
                 <div id="itensExame" class="row gap-10"></div>
 
+                <input type="hidden" id="cargosIds" th:field="*{cargos}">
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
 
             </div>
@@ -97,6 +116,50 @@
                 const div = this.parentElement;
                 divItens.removeChild(div);
             });
+        });
+
+        document.getElementById('addCargoBtn').addEventListener('click',function(){
+            const select = document.getElementById('cargosSelect');
+            const containerCargos = document.getElementById('container-cargos');
+            const cargoIdsInput = document.getElementById('cargosIds');
+
+            //pegar cargo selecionado
+            const selected = select.options[select.selectedIndex];
+            const cargoId = selected.value;
+            const cargoNome = selected.text;
+            const cargoDescricao = selected.getAttribute('data-descricao');
+
+            // ver se ja foi selecionado
+            if(containerCargos.querySelector(`span[data-id="${cargoId}"]`)){
+                alert('Este cargo já foi adicionado');
+                return;
+            }
+
+            // criar elemento
+            const newCargo = document.createElement('span');
+            newCargo.setAttribute('data-id',cargoId);
+            newCargo.classList.add('d-block','mb-2');
+            newCargo.innerHTML = `
+                    <p title="${cargoDescricao}" class="d-inline">${cargoNome}</p>
+                    <ion-icon name="trash-outline" class="remove-btn" style="cursor: pointer;"></ion-icon>
+            `;
+
+            containerCargos.appendChild(newCargo);
+
+            atualizarCargosIds();
+            // Adicionar evento de remover para o cargo de lixeira
+            newCargo.querySelector('.remove-btn').addEventListener('click',function(){
+               containerCargos.removeChild(newCargo);
+               atualizarCargosIds();
+            });
+
+            function atualizarCargosIds(){
+                const containerCargos = document.getElementById('container-cargos');
+                const cargos = containerCargos.querySelectorAll('span[data-id]');
+
+                const cargosIds = Array.from(cargos).map(cargo => cargo.getAttribute('data-id'));
+                document.getElementById('cargosIds').value = cargosIds.join(',');
+            }
         });
     </script>
 </main>

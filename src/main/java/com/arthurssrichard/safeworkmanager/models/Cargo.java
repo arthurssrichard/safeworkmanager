@@ -23,7 +23,7 @@ public class Cargo {
     )
     private Set<Risco> riscos = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "cargo_exame",
             joinColumns = @JoinColumn(name = "cargo_id"),

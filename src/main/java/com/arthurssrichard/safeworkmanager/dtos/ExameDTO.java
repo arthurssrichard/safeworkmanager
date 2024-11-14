@@ -18,6 +18,7 @@ public class ExameDTO {
 
     private List<String> nomeDadoBooleano;
     private List<String> resultadoBooleanoEsperado;
+    private List<Integer> cargos;
 
     public String getNome() {
         return nome;
@@ -73,5 +74,13 @@ public class ExameDTO {
 
     public void setResultadoBooleanoEsperado(List<String> resultadoBooleanoEsperado) {
         this.resultadoBooleanoEsperado = resultadoBooleanoEsperado;
+    }
+
+    public List<Integer> getCargos() {
+        return cargos;
+    }
+
+    public void setCargos(List<Integer> cargos) {
+        this.cargos = cargos;
     }
 }
