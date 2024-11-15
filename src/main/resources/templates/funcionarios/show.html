@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('SafeWorkManager')}"></head>
+<header th:replace="~{fragmentos :: header('Funcionario '+ ${funcionario.nome})}"></header>
+<body>
+    <main class="container">
+        <h2>Exames feitos:</h2>
+        <table class="table table-hover">
+            <thead>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Data</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Apagar</th>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div>
+            <a th:href="@{/funcionarios/{id}/examinacoes/new(id = ${funcionario.id})}">Nova examinação</a>
+        </div>
+    </main>
+    
+</body>
+</html>

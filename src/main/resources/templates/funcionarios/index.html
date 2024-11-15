@@ -20,7 +20,7 @@
         <tbody>
         <tr th:each="funcionario : ${funcionarios}">
             <th scope="col" th:text="${funcionario.id}"></th>
-            <td><a th:href="@{/funcionario/{idFuncionario}(idFuncionario=${funcionario.id})}" th:text="${funcionario.nome}"></a></td>
+            <td><a th:href="@{/funcionarios/{idFuncionario}(idFuncionario=${funcionario.id})}" th:text="${funcionario.nome}"></a></td>
             <td th:text="${funcionario.cargo.nome}"></td>
             <td th:text="${funcionario.setor.nome}"></td>
             <td th:text="${funcionario.dataAdmissao}"></td>

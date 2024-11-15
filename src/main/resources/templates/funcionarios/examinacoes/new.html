@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('SafeWorkManager')}"></head>
+<header th:replace="~{fragmentos :: header('Funcionario ' + ${funcionario.nome} + ' - Novo exame')}"></header>
+<body>
+<main class="container">
+    <form th:object="${examinacaoDTO}" th:action="@{/funcionarios/{id}/examinacoes/(id = ${funcionario.id})}" method="POST">
+        <div class="mb-3">
+            <label for="exame-select">Selecionar exame</label>
+            <select name="exameId" id="exame-select">
+                <option value="" disabled selected>Escolha um exame</option>
+                <option th:each="exame : ${exames}" th:text="${exame.nome}" th:value="${exame.id}"></option>
+            </select>
+            <button type="button" id="selecionarExameBtn" class="btn btn-secondary mt-2">Selecionar Exame</button>
+        </div>
+
+        <div id="exame-selecionado" class="d-none">
+            <h4>Exame: <span id="exame-nome"></span></h4>
+            <p><strong>Descrição:</strong> <span id="exame-descricao"></span></p>
+            <div id="itens-exame">
+                <!-- Campos do exame vão aparecer aqui -->
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3 d-none" id="submitExaminacao">Cadastrar</button>
+    </form>
+</main>
+</body>
+</html>

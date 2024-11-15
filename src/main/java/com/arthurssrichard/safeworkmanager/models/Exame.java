@@ -24,7 +24,7 @@ public class Exame {
     private String descricao;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ItemExame> exames = new HashSet<>();
+    private Set<ItemExame> itensExame = new HashSet<>();
 
 
     public int getId() {
@@ -65,5 +65,13 @@ public class Exame {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Set<ItemExame> getItensExame() {
+        return itensExame;
+    }
+
+    public void setItensExame(Set<ItemExame> itensExame) {
+        this.itensExame = itensExame;
     }
 }
