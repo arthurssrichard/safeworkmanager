@@ -20,6 +20,64 @@ public class ItemExaminacao {
     @Column(nullable = false)
     private TipoDado tipoDado;
 
+    private String nomeDado;
+
     private Double resultadoNumerico;
-    private Double resultadoBooleano;
+    private Boolean resultadoBooleano;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    public Examinacao getExaminacao() {
+        return examinacao;
+    }
+
+    public void setExaminacao(Examinacao examinacao) {
+        this.examinacao = examinacao;
+    }
+
+    public TipoDado getTipoDado() {
+        return tipoDado;
+    }
+
+    public void setTipoDado(TipoDado tipoDado) {
+        this.tipoDado = tipoDado;
+    }
+
+    public String getNomeDado() {
+        return nomeDado;
+    }
+
+    public void setNomeDado(String nomeDado) {
+        this.nomeDado = nomeDado;
+    }
+
+    public Double getResultadoNumerico() {
+        return resultadoNumerico;
+    }
+
+    public void setResultadoNumerico(Double resultadoNumerico) {
+        this.resultadoNumerico = resultadoNumerico;
+    }
+
+    public Boolean getResultadoBooleano() {
+        return resultadoBooleano;
+    }
+
+    public void setResultadoBooleano(Boolean resultadoBooleano) {
+        this.resultadoBooleano = resultadoBooleano;
+    }
 }

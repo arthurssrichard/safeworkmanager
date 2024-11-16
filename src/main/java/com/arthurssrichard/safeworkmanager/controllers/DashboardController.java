@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class DashboardController {
-    @GetMapping("/dashboard")
+    @GetMapping("/")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("dashboard/index");
         return mv;

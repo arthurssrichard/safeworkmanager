@@ -40,7 +40,11 @@ public class ExameController {
 
     @GetMapping("")
     public ModelAndView index(){
-        return new ModelAndView("exames/index");
+        ModelAndView mv = new ModelAndView("exames/index");
+        Usuario usuario = usuarioService.getLoggedUser();
+        List<Exame> exames = exameRepository.findByEmpresa(usuario.getEmpresa());
+        mv.addObject("exames",exames);
+        return mv;
     }
 
     @GetMapping("/new")

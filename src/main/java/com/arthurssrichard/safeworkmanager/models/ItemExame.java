@@ -2,6 +2,8 @@ package com.arthurssrichard.safeworkmanager.models;
 
 import jakarta.persistence.*;
 
+import java.beans.ConstructorProperties;
+
 @Entity
 public class ItemExame {
     @Id
@@ -10,11 +12,11 @@ public class ItemExame {
 
     @ManyToOne
     @JoinColumn(name="empresa_id", nullable = false)
-    Empresa empresa;
+    private Empresa empresa;
 
     @ManyToOne
     @JoinColumn(name="exame_id",nullable = false)
-    Exame exame;
+    private Exame exame;
 
     @Column(nullable = false)
     private String nomeDado; // Ex, "Hemoglobina (g/Dl)" ou para resultado booleano, "Manchas aparentes no abdômem?"
@@ -27,6 +29,8 @@ public class ItemExame {
     private Double resultadoValorMaximo;
     private boolean resultadoBooleano;
 
+
+    public ItemExame() {}
 
     public ItemExame(Empresa empresa, Exame exame, String nomeDado, TipoDado tipoDado, boolean resultadoBooleano) {
         this.empresa = empresa;

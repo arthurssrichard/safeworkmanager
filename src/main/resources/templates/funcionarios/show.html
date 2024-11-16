@@ -4,23 +4,46 @@
 <header th:replace="~{fragmentos :: header('Funcionario '+ ${funcionario.nome})}"></header>
 <body>
     <main class="container">
-        <h2>Exames feitos:</h2>
-        <table class="table table-hover">
-            <thead>
+        <div class="row">
+            <h3>Examinações realizadas:</h3>
+            <table class="table table-hover">
+                <thead>
                 <th scope="col">ID</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Data</th>
                 <th scope="col">Editar</th>
                 <th scope="col">Apagar</th>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
 
-            </tbody>
-        </table>
-        <div>
-            <a th:href="@{/funcionarios/{id}/examinacoes/new(id = ${funcionario.id})}">Nova examinação</a>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h3>Exames associados <span class="text-muted">(<span th:text="${funcionario.cargo.nome}"></span>)</span></h3>
+            <table class="table table-hover">
+                <thead>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Realizar exame</th>
+                </thead>
+                <tbody>
+                <tr th:each="exame : ${exames}">
+
+                    <th scope="col" th:text="${exame.id}"></th>
+                    <td th:text="${exame.nome}"></td>
+                    <td th:text="${exame.descricao}"></td>
+                    <td><a th:href="@{/funcionarios/{funId}/examinacoes/{exId}/new(funId = ${funcionario.id}, exId = ${exame.id})}">
+                        <ion-icon name="reader-outline" class="btn btn-info"></ion-icon>
+                    </a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </main>
-    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 </body>
 </html>

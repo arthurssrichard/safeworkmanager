@@ -41,7 +41,7 @@ public class SecurityConfig {
 
         http.formLogin(formLogin -> formLogin.
                 loginPage("/login").permitAll()
-                .defaultSuccessUrl("/dashboard", true)
+                .defaultSuccessUrl("/", true)
         );
 
         http.httpBasic(withDefaults());

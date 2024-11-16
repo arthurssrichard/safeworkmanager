@@ -9,7 +9,6 @@
 
     <title th:text="${titulo}">Home</title>
 </head>
-
 <header th:fragment="header(titulo)">
     <div class="container mt-3">
         <ul class="nav nav-tabs">
@@ -40,8 +39,8 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/exames"
-                   th:classappend="${servletPath.startsWith('/exames') ? 'exames' : ''}"
-                >Cargos</a>
+                   th:classappend="${servletPath.startsWith('/exames') ? 'active' : ''}"
+                >Exames</a>
             </li>
         </ul>
     </div>

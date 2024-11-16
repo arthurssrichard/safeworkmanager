@@ -6,6 +6,7 @@ import com.arthurssrichard.safeworkmanager.dtos.RiscoDTO;
 import com.arthurssrichard.safeworkmanager.dtos.SetorDTO;
 import com.arthurssrichard.safeworkmanager.models.*;
 import com.arthurssrichard.safeworkmanager.repositories.CargoRepository;
+import com.arthurssrichard.safeworkmanager.repositories.ExameRepository;
 import com.arthurssrichard.safeworkmanager.repositories.FuncionarioRepository;
 import com.arthurssrichard.safeworkmanager.repositories.SetorRepository;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,8 @@ public class FuncionarioController {
     private SetorRepository setorRepository;
     @Autowired
     private CargoRepository cargoRepository;
+    @Autowired
+    private ExameRepository exameRepository;
 
     @GetMapping("")
     public ModelAndView index() {
@@ -39,6 +43,7 @@ public class FuncionarioController {
         List<Funcionario> funcionarios = funcionarioRepository.findByEmpresa(usuario.getEmpresa());
         ModelAndView mv = new ModelAndView("funcionarios/index");
         mv.addObject("funcionarios", funcionarios);
+
         return mv;
     }
 
@@ -93,12 +98,15 @@ public class FuncionarioController {
         if(optional.isEmpty()){
             ModelAndView mv = new ModelAndView("redirect:/funcionarios");
         }
-
+        Funcionario funcionario = optional.get();
         ModelAndView mv = new ModelAndView("funcionarios/show");
-        mv.addObject("funcionario",optional.get());
+
+        List<Exame> exames = exameRepository.findByCargo(funcionario.getCargo());
+
+        mv.addObject("funcionario",funcionario);
+        mv.addObject("exames",exames);
         return mv;
     }
-
 
 
 }

@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Exames')}"></head>
+<header th:replace="~{fragmentos :: header('Exames')}"></header>
 <body>
-
+<main class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th>Editar</th>
+            <th>Apagar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exame : ${exames}">
+            <th scope="col" th:text="${exame.id}"></th>
+            <td th:title="${exame.descricao}">
+                <a th:text="${exame.nome}" th:href="@{exame/{id}(id = ${exame.id})}"></a></td>
+            <td><a th:href="@{exame/{id}/edit(id = ${exame.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
+            <td><a th:href="@{exame/{id}/delete(id = ${exame.id})}"><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <a href="/exames/new">Novo exame</a>
+    </div>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
