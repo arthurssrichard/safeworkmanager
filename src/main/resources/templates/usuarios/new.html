@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Usuários')}"></head>
+<header th:replace="~{fragmentos :: header('Usuários')}"></header>
+<body>
+    <main th:replace="~{usuarios/fragmentos :: form(usuarioDTO, '/usuarios')}"></main>
+</body>
+</html>
