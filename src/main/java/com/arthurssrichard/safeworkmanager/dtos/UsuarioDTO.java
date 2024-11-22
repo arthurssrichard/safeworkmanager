@@ -1,41 +1,52 @@
 package com.arthurssrichard.safeworkmanager.dtos;
 
 import com.arthurssrichard.safeworkmanager.models.NivelAcesso;
+import com.arthurssrichard.safeworkmanager.models.Usuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class UsuarioDTO {
     @NotBlank
-    @NotNull
     private String nome;
 
     @NotBlank
-    @NotNull
     private String senha;
-    @NotNull
+
+    @NotNull // Use @NotNull para tipos enum
     private NivelAcesso nivelAcesso;
 
-    public @NotBlank @NotNull String getNome() {
+    // Getters e Setters
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(@NotBlank @NotNull String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public @NotBlank @NotNull String getSenha() {
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(@NotBlank @NotNull String senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
-    public @NotBlank @NotNull NivelAcesso getNivelAcesso() {
+    public NivelAcesso getNivelAcesso() {
         return nivelAcesso;
     }
 
-    public void setNivelAcesso(@NotBlank @NotNull NivelAcesso nivelAcesso) {
+    public void setNivelAcesso(NivelAcesso nivelAcesso) {
         this.nivelAcesso = nivelAcesso;
+    }
+
+    public boolean fromUsuario(Usuario usuario){
+        if(usuario.getNivelAcesso() != null && usuario.getNome() != null){
+            this.nome = usuario.getNome();
+            this.nivelAcesso = usuario.getNivelAcesso();
+
+            return true;
+        }
+        return false;
     }
 }

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Edição de Usuário')}"></head>
 <body>
+<header th:replace="~{fragmentos :: header('Edição de Usuário')}"></header>
+<main>
+    <main th:replace="~{usuarios/fragmentos :: form(usuarioDTO, '/usuarios')}"></main>
 
+</main>
 </body>
 </html>

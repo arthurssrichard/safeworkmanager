@@ -7,17 +7,20 @@ import com.arthurssrichard.safeworkmanager.models.Usuario;
 import com.arthurssrichard.safeworkmanager.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -76,4 +79,22 @@ public class UsuarioController {
         ModelAndView mv = new ModelAndView("redirect:/usuarios");
         return mv;
     }
+
+    @GetMapping("usuarios/{id}/edit")
+    public ModelAndView edit(@PathVariable Integer id, UsuarioDTO usuarioDTO) {
+        Optional<Usuario> optional = this.usuarioRepository.findById(id);
+
+        if (optional.isPresent()) {
+            Usuario usuario = optional.get();
+            usuarioDTO.fromUsuario(usuario);
+
+            ModelAndView mv = new ModelAndView("usuarios/edit");
+            mv.addObject("usuarioDTO", usuarioDTO);
+            return mv;
+        } else {
+            System.out.printf("Falha, ID não encontrado!");
+            return new ModelAndView("redirect:/usuarios");
+        }
+    }
+
 }
