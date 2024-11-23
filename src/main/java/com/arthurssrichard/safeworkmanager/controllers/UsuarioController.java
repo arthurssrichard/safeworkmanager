@@ -90,11 +90,39 @@ public class UsuarioController {
 
             ModelAndView mv = new ModelAndView("usuarios/edit");
             mv.addObject("usuarioDTO", usuarioDTO);
+            mv.addObject("listNivelAcesso", NivelAcesso.values());
+            mv.addObject("usuarioId", id);
             return mv;
         } else {
             System.out.printf("Falha, ID não encontrado!");
             return new ModelAndView("redirect:/usuarios");
         }
     }
+    @PostMapping("usuarios/{id}")
+    public ModelAndView update(@PathVariable Integer id, @Valid UsuarioDTO usuarioDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            ModelAndView mv = new ModelAndView("usuarios/edit");
+            mv.addObject("usuarioDTO", usuarioDTO);
+            mv.addObject("listNivelAcesso", NivelAcesso.values());
+            return mv;
+        }
+
+        Optional<Usuario> optional = this.usuarioRepository.findById(id);
+
+        if (optional.isPresent()) {
+            Usuario usuario = optional.get(); // Obter o usuário existente
+            usuarioDTO.toUsuario(usuario);    // Atualizar os dados no mesmo objeto
+
+            // Atualizar a senha (com encriptação)
+            usuario.setSenha(bCryptPasswordEncoder.encode(usuarioDTO.getSenha()));
+
+            this.usuarioRepository.save(usuario); // Salvar as alterações
+            return new ModelAndView("redirect:/usuarios");
+        } else {
+            System.out.printf("Falha, usuário de id %d não encontrado!", id);
+            return new ModelAndView("redirect:/usuarios");
+        }
+    }
+
 
 }

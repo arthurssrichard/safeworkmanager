@@ -40,6 +40,20 @@ public class UsuarioDTO {
         this.nivelAcesso = nivelAcesso;
     }
 
+    public Usuario toUsuario(){
+        Usuario usuario = new Usuario();
+        usuario.setNome(this.nome);
+        usuario.setNivelAcesso(this.nivelAcesso);
+        return usuario;
+    }
+
+    public Usuario toUsuario(Usuario usuario) {
+        usuario.setNome(this.nome);
+        usuario.setNivelAcesso(this.nivelAcesso);
+        return usuario;
+    }
+
+
     public boolean fromUsuario(Usuario usuario){
         if(usuario.getNivelAcesso() != null && usuario.getNome() != null){
             this.nome = usuario.getNome();

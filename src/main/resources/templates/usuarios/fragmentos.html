@@ -1,22 +1,22 @@
-<main class="container" th:fragment="form(usuarioDTO, action)">
-  <div class="row">
-    <form th:object="${usuarioDTO}" th:action="${action}" method="POST">
-      <div class="mb-3">
-        <label for="nome" class="form-label">Nome: </label>
-        <input type="text" th:field="*{nome}" id="nome" required>
+  <main class="container" th:fragment="form(usuarioDTO, action)">
+    <div class="row">
+      <form th:object="${usuarioDTO}" th:action="${action}" method="POST">
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome: </label>
+          <input type="text" th:field="*{nome}" id="nome" required>
 
-        <label for="senha">Senha: </label>
-        <input type="password" th:field="*{senha}" id="senha" required>
+          <label for="senha">Senha: </label>
+          <input type="password" th:field="*{senha}" id="senha" required>
 
-        <label for="nivel-acesso">Nível de Acesso: </label>
-        <select th:field="*{nivelAcesso}"  id="nivel-acesso" class="form-select">
-          <option th:each="nivelAcesso : ${listNivelAcesso}"
-                  th:value="${nivelAcesso}" th:text="${nivelAcesso}">
-          </option>
-        </select>
+          <label for="nivel-acesso">Nível de Acesso: </label>
+          <select th:field="*{nivelAcesso}"  id="nivel-acesso" class="form-select">
+            <option th:each="nivelAcesso : ${listNivelAcesso}"
+                    th:value="${nivelAcesso}" th:text="${nivelAcesso}">
+            </option>
+          </select>
 
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
-      </div>
-    </form>
-  </div>
-</main>
+          <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </div>
+      </form>
+    </div>
+  </main>

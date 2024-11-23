@@ -4,7 +4,7 @@
 <body>
 <header th:replace="~{fragmentos :: header('Edição de Usuário')}"></header>
 <main>
-    <main th:replace="~{usuarios/fragmentos :: form(usuarioDTO, '/usuarios')}"></main>
+    <main th:replace="~{usuarios/fragmentos :: form(usuarioDTO, '/usuarios/' + ${usuarioId})}"></main>
 
 </main>
 </body>
