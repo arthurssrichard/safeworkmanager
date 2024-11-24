@@ -8,13 +8,18 @@
         <div id="exame-selecionado">
             <h4><strong>Exame:</strong> <span th:text="${exame.nome}"></span></h4>
             <p><strong>Descrição:</strong> <span th:text="${exame.descricao}"></span></p>
-            <div class="form-container">
-                <input type="date" th:field="*{dataRealizada}">
+
+            <div class="form-group mb-3" style="width: fit-content">
+                <label for="data-realizada">Data realizada:</label>
+                <input type="date" th:field="*{dataRealizada}" id="data-realizada" class="form-control">
             </div>
+
             <div id="itens-exame">
                 <div th:each="item, itr : ${exame.itensExame}" class="form-container">
                     <label th:text="${item.nomeDado}"></label>
                     <input
+
+                            th:classappend="${item.tipoDado.toString() == 'NUMERICO'} ? 'form-control' : 'form-check-input'"
                             th:type="${item.tipoDado.toString() == 'NUMERICO' ? 'number' : 'checkbox'}"
                             th:name="${item.tipoDado.toString() == 'NUMERICO' ? ('resultadoNumerico[]') : ('resultadoBooleano[]')}"
                             th:placeholder="${item.tipoDado.toString() == 'NUMERICO' ? 'Entre '+item.resultadoValorMinimo+' e '+item.resultadoValorMaximo : ''}">
@@ -23,6 +28,7 @@
 
                     <small th:text="${item.tipoDado.toString() == 'BOOLEANO' ? 'Esperado: '+(item.resultadoBooleano ? 'Sim' : 'Não') : ''}"
                             th:classappend="text-muted"></small>
+                    <hr>
                 </div>
             </div>
         </div>
