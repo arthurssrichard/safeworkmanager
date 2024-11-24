@@ -37,7 +37,7 @@
                     <ion-icon name="create-outline" class="btn btn-info"></ion-icon>
                 </a>
             </td>
-            <td>
+            <td th:if="${usuario.id != loggedUser.id}">
                 <a th:href="@{/usuarios/{id}/delete(id=${usuario.id})}"
                    onclick="return confirm('Tem certeza que deseja deletar o usuário?')">
                     <ion-icon name="trash-outline" class="btn btn-danger"></ion-icon>
