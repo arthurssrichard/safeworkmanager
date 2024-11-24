@@ -8,6 +8,7 @@ import com.arthurssrichard.safeworkmanager.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.util.List;
@@ -122,6 +123,28 @@ public class UsuarioController {
             System.out.printf("Falha, usuário de id %d não encontrado!", id);
             return new ModelAndView("redirect:/usuarios");
         }
+    }
+    @GetMapping("usuarios/{id}/delete")
+    public ModelAndView delete(@PathVariable Integer id) {
+        ModelAndView mv = new ModelAndView("redirect:/usuarios");
+
+        try {
+            this.usuarioRepository.deleteById(id);
+            mv.addObject("mensagem", "Usuário #" + id + " deletado com sucesso!");
+            mv.addObject("erro", false);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println("Erro ao deletar usuário: " + e.getMessage());
+            mv = retornaErroUsuario("DELETE ERROR: Usuário #" + id + " não encontrado no banco!");
+        }
+
+        return mv;
+    }
+
+    private ModelAndView retornaErroUsuario(String msg) {
+        ModelAndView mv = new ModelAndView("redirect:/usuarios");
+        mv.addObject("mensagem", msg);
+        mv.addObject("erro", true);
+        return mv;
     }
 
 
