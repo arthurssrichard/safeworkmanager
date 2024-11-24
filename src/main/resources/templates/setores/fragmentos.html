@@ -2,11 +2,11 @@
     <div class="row mt-4">
         <div class="col-12">
             <form th:object="${setorDTO}" th:action="${action}" method="POST">
-                <div class="mb-3">
+                <div class="form-group">
                     <label for="nome" class="form-label">Nome:</label>
                     <input type="text" th:field="*{nome}" id="nome" required class="form-control" placeholder="Digite o nome do setor">
                 </div>
-                <div class="mb-3">
+                <div class="form-group">
                     <label for="descricao" class="form-label">Descrição:</label>
                     <textarea th:field="*{descricao}" id="descricao" class="form-control" rows="4" placeholder="Digite a descrição do setor"></textarea>
                 </div>

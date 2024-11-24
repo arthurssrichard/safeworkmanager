@@ -3,17 +3,17 @@
     <div class="col-12">
       <form th:object="${riscoDTO}" th:action="${action}" method="POST">
 
-        <div class="form-container">
+        <div class="form-group">
           <label for="nome" class="form-label">Nome: </label>
           <input type="text" th:field="*{nome}" id="nome" class="form-control" required>
         </div>
 
-        <div class="form-container">
+        <div class="form-group">
           <label for="descricao" class="form-label">Descrição</label>
           <textarea th:field="*{descricao}" id="descricao" class="form-control"></textarea>
         </div>
 
-        <div class="form-container">
+        <div class="form-group">
           <label for="observacao" class="form-label">Observação</label>
           <input type="text" th:field="*{observacao}" id="observacao" class="form-control" required>
         </div>
@@ -21,7 +21,7 @@
 
           <h4>Agentes de Risco</h4>
 
-        <div class="form-container">
+        <div class="form-group">
           <table id="agentesTable" class="table table-hover">
             <thead>
               <tr><th>Nome do Agente</th><th>Descrição do Agente</th><th>Ação</th></tr>
@@ -31,7 +31,7 @@
 
         </div>
         <button type="button" id="addAgentBtn" class="btn btn-secondary mt-2">Adicionar Agente</button>
-        <div class="form-container mt-3">
+        <div class="form-group mt-3">
           <button type="submit" class="btn btn-primary">Cadastrar</button>
         </div>
       </form>

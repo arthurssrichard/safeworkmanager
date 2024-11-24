@@ -1,16 +1,24 @@
 <main class="container" th:fragment="form(cargoDTO, action)">
-    <div class="row">
-        <form th:object="${cargoDTO}" th:action="${action}" method="POST">
-            <div class="mb-3">
-                <label for="nome" class="form-label">Nome: </label>
-                <input th:field="*{nome}" type="text" id="nome" required>
+    <div class="row mt-4 mb-4">
+        <div class="col-12">
+            <form th:object="${cargoDTO}" th:action="${action}" method="POST">
 
-                <label for="descricao" class="form-label">Descrição</label>
-                <textarea th:field="*{descricao}" id="descricao"></textarea>
+                <!-- Campo Nome -->
+                <div class="form-group">
+                    <label for="nome" class="form-label">Nome: </label>
+                    <input th:field="*{nome}" type="text" id="nome" class="form-control" required>
+                </div>
 
-                <div>
+                <!-- Campo Descrição -->
+                <div class="form-group">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea th:field="*{descricao}" id="descricao" class="form-control"></textarea>
+                </div>
+                <hr>
+                <!-- Seletor de Riscos -->
+                <div class="form-group">
                     <label for="riscoSelect" class="form-label">Riscos</label>
-                    <select id="riscoSelect">
+                    <select id="riscoSelect" class="form-control">
                         <option th:each="risco : ${riscos}"
                                 th:value="${risco.id}"
                                 th:text="${risco.nome}"
@@ -18,19 +26,27 @@
                         </option>
                     </select>
                     <button type="button" id="addRiscoBtn" class="btn btn-secondary mt-2">Adicionar</button>
+                </div>
 
-                    <div id="container-riscos" class="mt-3">
+                <!-- Container de Riscos Adicionados -->
+                <div class="form-group mt-3">
+                    <label for="container-riscos" class="form-label">Riscos Adicionados:</label>
+                    <div id="container-riscos" class="border p-3 rounded">
                         <!-- Os riscos adicionados serão inseridos aqui -->
                     </div>
                 </div>
 
-                <!-- Campo oculto para enviar os IDs dos riscos selecionados -->
+                <!-- Campo Oculto para IDs dos Riscos -->
                 <input type="hidden" th:field="*{riscos}" id="riscosIds" />
 
-                <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
-            </div>
-        </form>
+                <!-- Botão de Submissão -->
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </form>
+        </div>
     </div>
+
     <script>
         document.getElementById('addRiscoBtn').addEventListener('click', function () {
             const selectElement = document.getElementById('riscoSelect');
@@ -39,7 +55,7 @@
 
             // Obter o risco selecionado no select
             const selectedOption = selectElement.options[selectElement.selectedIndex];
-                    const riscoId = selectedOption.value;
+            const riscoId = selectedOption.value;
             const riscoNome = selectedOption.text;
             const riscoDescricao = selectedOption.getAttribute('data-descricao');
 
@@ -49,22 +65,22 @@
                 return;
             }
 
-            // Criar um novo elemento span para o risco
+            // Criar um novo elemento para o risco
             const newRisco = document.createElement('span');
             newRisco.setAttribute('data-id', riscoId);
-            newRisco.classList.add('d-block', 'mb-2');
+            newRisco.classList.add('d-flex', 'justify-content-between', 'align-items-center', 'mb-2', 'p-2', 'border', 'rounded');
 
             newRisco.innerHTML = `
-                <p title="${riscoDescricao}" class="d-inline">${riscoNome}</p>
-                <ion-icon name="trash-outline" class="remove-btn" style="cursor: pointer;"></ion-icon>
-            `;
+        <p title="${riscoDescricao}" class="mb-0">${riscoNome}</p>
+        <button type="button" class="btn btn-sm btn-danger remove-btn">Remover</button>
+      `;
 
             containerRiscos.appendChild(newRisco);
 
             // Atualizar o campo oculto com os IDs dos riscos
             atualizarRiscosIds();
 
-            // Adicionar evento de remover para o ícone de lixeira
+            // Adicionar evento de remover para o botão "Remover"
             newRisco.querySelector('.remove-btn').addEventListener('click', function () {
                 containerRiscos.removeChild(newRisco);
                 atualizarRiscosIds();
