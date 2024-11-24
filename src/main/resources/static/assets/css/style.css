@@ -1,3 +1,15 @@
 .navbar-brand img{
     max-width: 50%;
 }
+.pill-cargo{
+    background-color: lightgray;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 12px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,20%);
+    margin-right: 8px;
+    & p{
+        color: black;
+        font-weight: 600;
+    }
+}
