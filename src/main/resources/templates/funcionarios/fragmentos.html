@@ -1,31 +1,52 @@
 <main class="container" th:fragment="form(funcionarioDTO, action)">
-    <div class="row">
-        <form th:object="${funcionarioDTO}" th:action="${action}" method="POST">
-            <div class="mb-3">
-                <label for="nome">Nome</label>
-                <input type="text" th:field="*{nome}" id="nome">
+    <div class="row mt-4 mb-4">
+        <div class="col-12">
+            <form th:object="${funcionarioDTO}" th:action="${action}" method="POST">
 
-                <label for="dataAdmissao">Data de admissão</label>
-                <input type="date" th:field="*{dataAdmissao}" id="dataAdmissao">
+                <!-- Campo Nome -->
+                <div class="form-group">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" th:field="*{nome}" id="nome" class="form-control" required>
+                </div>
 
-                <label for="dataDemissao">Data de demissão</label>
-                <input type="date" th:field="*{dataDemissao}" id="dataDemissao">
+                <!-- Datas de admissão e demissão -->
+                <div class="row mt-3">
 
-                <label for="setor">Setor</label>
-                <select th:field="*{idSetor}" id="setor">
-                    <option th:each="setor : ${setores}"
-                            th:value="${setor.id}"
-                            th:text="${setor.nome}"></option>
-                </select>
+                    <div class="form-group col-6">
+                        <label for="dataAdmissao" class="form-label">Data de Admissão</label>
+                        <input type="date" th:field="*{dataAdmissao}" id="dataAdmissao" class="form-control">
+                    </div>
 
-                <label for="cargo">Cargos</label>
-                <select th:field="*{idCargo}" id="cargo">
-                    <option th:each="cargo : ${cargos}"
-                            th:value="${cargo.id}"
-                            th:text="${cargo.nome}"></option>
-                </select>
-                <button type="submit">Cadastrar</button>
-            </div>
-        </form>
+                    <div class="form-group col-6">
+                        <label for="dataDemissao" class="form-label">Data de Demissão</label>
+                        <input type="date" th:field="*{dataDemissao}" id="dataDemissao" class="form-control">
+                        <small class="text-muted">Deixar vazio caso não demitido</small>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <!-- Campo Setor -->
+                    <div class="form-group col-6">
+                        <label for="setor" class="form-label">Setor</label>
+                        <select th:field="*{idSetor}" id="setor" class="form-control">
+                            <option th:each="setor : ${setores}" th:value="${setor.id}" th:text="${setor.nome}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Campo Cargo -->
+                    <div class="form-group col-6">
+                        <label for="cargo" class="form-label">Cargo</label>
+                        <select th:field="*{idCargo}" id="cargo" class="form-control">
+                            <option th:each="cargo : ${cargos}" th:value="${cargo.id}" th:text="${cargo.nome}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Botão de Submissão -->
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </form>
+        </div>
     </div>
 </main>
