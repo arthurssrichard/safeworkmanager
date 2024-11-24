@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-
+<head th:replace="~{fragmentos :: head('Setores')}"></head>
+<header th:replace="~{fragmentos :: header('Novo setor')}"></header>
 <body>
-   <main th:replace="~{setores/fragmentos :: form(setorDTO, '/setores')}"></main>
+    <main th:replace="~{setores/fragmentos :: form(setorDTO, '/setores')}"></main>
 </body>
 </html>

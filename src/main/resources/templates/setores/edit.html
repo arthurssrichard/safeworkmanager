@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="~{fragmentos :: head('Setores')}"></head>
+<header th:replace="~{fragmentos :: header('Editar setor')}"></header>
 <body>
-
+<main th:replace="~{setores/fragmentos :: form(setorDTO,'/setores/'+ ${setorId})}"></main>
 </body>
 </html>

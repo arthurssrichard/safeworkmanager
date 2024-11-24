@@ -93,11 +93,20 @@ public class SetorController {
     }
 
     @GetMapping("/{id}/edit")
-    public ModelAndView edit(@PathVariable int id, @Valid SetorDTO setorDTO){
+    public ModelAndView edit(@PathVariable int id, SetorDTO setorDTO){
         Optional<Setor> optional = setorRepository.findById(id);
         if(optional.isPresent()){
             Setor setor = optional.get();
+
             ModelAndView mv = new ModelAndView("setores/edit");
+            mv.addObject("setorId",id);
+
+            setorDTO.setNome(setor.getNome());
+            setorDTO.setDescricao(setor.getDescricao());
+
+            mv.addObject("setorId",id);
+            mv.addObject("setorDTO",setorDTO);
+
 
             return mv;
         }else{

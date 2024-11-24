@@ -1,15 +1,17 @@
 <main class="container" th:fragment="form(setorDTO, action)">
-    <div class="row">
-        <form th:object="${setorDTO}" th:action="${action}" method="POST">
-            <div class="mb-3">
-                <label for="nome" class="form-label">Nome: </label>
-                <input type="text" name="nome" id="nome" required>
-
-                <label for="descricao" class="form-label">Descrição</label>
-                <textarea name="descricao" id="descricao"></textarea>
-
+    <div class="row mt-4">
+        <div class="col-12">
+            <form th:object="${setorDTO}" th:action="${action}" method="POST">
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome:</label>
+                    <input type="text" th:field="*{nome}" id="nome" required class="form-control" placeholder="Digite o nome do setor">
+                </div>
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição:</label>
+                    <textarea th:field="*{descricao}" id="descricao" class="form-control" rows="4" placeholder="Digite a descrição do setor"></textarea>
+                </div>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </main>
