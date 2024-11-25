@@ -3,7 +3,104 @@
 <head th:replace="~{fragmentos :: head('Cargos')}"></head>
 <header th:replace="~{fragmentos :: header('Novo cargo')}"></header>
 <body>
-<main th:replace="~{cargos/fragmentos :: form(cargoDTO, '/cargos')}"></main>
+<main class="container">
+    <div class="row mt-4 mb-4">
+        <div class="col-12">
+            <form th:object="${cargoDTO}" th:action="${'/cargos'}" method="POST">
+
+                <!-- Campo Nome -->
+                <div class="form-group">
+                    <label for="nome" class="form-label">Nome: </label>
+                    <input th:field="*{nome}" type="text" id="nome" class="form-control" required>
+                </div>
+
+                <!-- Campo Descrição -->
+                <div class="form-group">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea th:field="*{descricao}" id="descricao" class="form-control"></textarea>
+                </div>
+                <hr>
+                <!-- Seletor de Riscos -->
+                <div class="form-group">
+                    <label for="riscoSelect" class="form-label">Riscos</label>
+                    <select id="riscoSelect" class="form-control">
+                        <option th:each="risco : ${riscos}"
+                                th:value="${risco.id}"
+                                th:text="${risco.nome}"
+                                th:data-descricao="${risco.descricao}">
+                        </option>
+                    </select>
+                    <button type="button" id="addRiscoBtn" class="btn btn-secondary mt-2">Adicionar</button>
+                </div>
+
+                <!-- Container de Riscos Adicionados -->
+                <div class="form-group mt-3">
+                    <label for="container-riscos" class="form-label">Riscos Adicionados:</label>
+                    <div id="container-riscos" class="border p-3 rounded">
+                        <!-- Os riscos adicionados serão inseridos aqui -->
+                    </div>
+                </div>
+
+                <!-- Campo Oculto para IDs dos Riscos -->
+                <input type="hidden" th:field="*{riscos}" id="riscosIds" />
+
+                <!-- Botão de Submissão -->
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('addRiscoBtn').addEventListener('click', function () {
+            const selectElement = document.getElementById('riscoSelect');
+            const containerRiscos = document.getElementById('container-riscos');
+            const riscosIdsInput = document.getElementById('riscosIds');
+
+            // Obter o risco selecionado no select
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const riscoId = selectedOption.value;
+            const riscoNome = selectedOption.text;
+            const riscoDescricao = selectedOption.getAttribute('data-descricao');
+
+            // Verificar se o risco já foi adicionado
+            if (containerRiscos.querySelector(`span[data-id="${riscoId}"]`)) {
+                alert('Este risco já foi adicionado.');
+                return;
+            }
+
+            // Criar um novo elemento para o risco
+            const newRisco = document.createElement('span');
+            newRisco.setAttribute('data-id', riscoId);
+            newRisco.classList.add('d-flex', 'justify-content-between', 'align-items-center', 'mb-2', 'p-2', 'border', 'rounded');
+
+            newRisco.innerHTML = `
+        <span title="${riscoDescricao}" class="mb-0">${riscoNome}</span>
+        <button type="button" class="btn btn-sm btn-danger remove-btn"><ion-icon name="trash-outline"></ion-icon></button>
+      `;
+
+            containerRiscos.appendChild(newRisco);
+
+            // Atualizar o campo oculto com os IDs dos riscos
+            atualizarRiscosIds();
+
+            // Adicionar evento de remover para o botão "Remover"
+            newRisco.querySelector('.remove-btn').addEventListener('click', function () {
+                containerRiscos.removeChild(newRisco);
+                atualizarRiscosIds();
+            });
+        });
+
+        function atualizarRiscosIds() {
+            const containerRiscos = document.getElementById('container-riscos');
+            const riscos = containerRiscos.querySelectorAll('span[data-id]');
+            const riscosIds = Array.from(riscos).map(risco => risco.getAttribute('data-id'));
+            document.getElementById('riscosIds').value = riscosIds.join(',');
+        }
+    </script>
+</main>
+
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

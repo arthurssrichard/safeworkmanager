@@ -1,7 +1,12 @@
-<main class="container" th:fragment="form(cargoDTO, action)">
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Cargos')}"></head>
+<header th:replace="~{fragmentos :: header('Editar cargo')}"></header>
+<body>
+<main class="container">
     <div class="row mt-4 mb-4">
         <div class="col-12">
-            <form th:object="${cargoDTO}" th:action="${action}" method="POST">
+            <form th:object="${cargoDTO}" th:action="${'/cargos/'+cargoId}" method="POST">
 
                 <!-- Campo Nome -->
                 <div class="form-group">
@@ -33,6 +38,11 @@
                     <label for="container-riscos" class="form-label">Riscos Adicionados:</label>
                     <div id="container-riscos" class="border p-3 rounded">
                         <!-- Os riscos adicionados serão inseridos aqui -->
+                        <span
+                            class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded"
+                            th:each="risco : ${cargoDTO.riscosEdit}"
+                            th:attr="data-id=${risco.id}"
+                            ><span class="mb-0" th:title="risco.descricao" th:text="${risco.nome}"></span> <button type="button" class="remove-btn btn btn-sm btn-danger"><ion-icon name="trash-outline"></ion-icon></button></span>
                     </div>
                 </div>
 
@@ -41,13 +51,17 @@
 
                 <!-- Botão de Submissão -->
                 <div class="form-group mt-3">
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <button type="submit" class="btn btn-primary">Editar</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            atualizarRiscosIds();
+        });
+
         document.getElementById('addRiscoBtn').addEventListener('click', function () {
             const selectElement = document.getElementById('riscoSelect');
             const containerRiscos = document.getElementById('container-riscos');
@@ -71,8 +85,8 @@
             newRisco.classList.add('d-flex', 'justify-content-between', 'align-items-center', 'mb-2', 'p-2', 'border', 'rounded');
 
             newRisco.innerHTML = `
-        <p title="${riscoDescricao}" class="mb-0">${riscoNome}</p>
-        <button type="button" class="btn btn-sm btn-danger remove-btn">Remover</button>
+        <span title="${riscoDescricao}" class="mb-0">${riscoNome}</span>
+        <button type="button" class="btn btn-sm btn-danger remove-btn"><ion-icon name="trash-outline"></ion-icon></button>
       `;
 
             containerRiscos.appendChild(newRisco);
@@ -87,11 +101,26 @@
             });
         });
 
+
+
         function atualizarRiscosIds() {
             const containerRiscos = document.getElementById('container-riscos');
             const riscos = containerRiscos.querySelectorAll('span[data-id]');
             const riscosIds = Array.from(riscos).map(risco => risco.getAttribute('data-id'));
             document.getElementById('riscosIds').value = riscosIds.join(',');
         }
+
+        document.querySelectorAll('.remove-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                // Remove o elemento pai do botão, que é o <span>
+                const spanToRemove = this.closest('span');
+                spanToRemove.remove();
+            });
+        });
     </script>
 </main>
+
+</body>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</html>
