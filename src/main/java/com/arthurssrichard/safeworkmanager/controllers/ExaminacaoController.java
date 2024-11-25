@@ -100,15 +100,18 @@ public class ExaminacaoController {
                 itemExaminacaoRepository.save(itemExaminacao);
                 }
         }else{//caso nao tenha nenhuma checkbox selecionada
-            System.out.println("Nada selecionado");
-            for(int i = 0; i < nomesBooleanos.size(); i++){
-                ItemExaminacao itemExaminacao = new ItemExaminacao();
-                itemExaminacao.setTipoDado(TipoDado.BOOLEANO);
-                itemExaminacao.setNomeDado(nomesBooleanos.get(i));
-                itemExaminacao.setResultadoBooleano(false);
-                itemExaminacao.setEmpresa(usuario.getEmpresa());
-                itemExaminacao.setExaminacao(examinacao);
-                itemExaminacaoRepository.save(itemExaminacao);
+            if(nomesBooleanos != null){
+                for(int i = 0; i < nomesBooleanos.size(); i++){
+                    ItemExaminacao itemExaminacao = new ItemExaminacao();
+                    itemExaminacao.setTipoDado(TipoDado.BOOLEANO);
+                    itemExaminacao.setNomeDado(nomesBooleanos.get(i));
+                    itemExaminacao.setResultadoBooleano(false);
+                    itemExaminacao.setEmpresa(usuario.getEmpresa());
+                    itemExaminacao.setExaminacao(examinacao);
+                    itemExaminacaoRepository.save(itemExaminacao);
+                }
+            }else{
+                System.out.println("Nada selecionado");
             }
         }
 
