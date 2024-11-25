@@ -3,6 +3,91 @@
 <head th:replace="~{fragmentos :: head('SafeWorkManager')}"></head>
 <header th:replace="~{fragmentos :: header('Dashboard')}"></header>
 <body>
+<hr>
+<main class="container mt-4">
+    <h2 class="mb-4">Exames Inadequados por Setor</h2>
+    <div class="row">
+        <div class="col-12 col-md-8 bg-light shadow-sm rounded">
+            <canvas id="chartExames" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <h2 class="mt-5 mb-4">Funcionários com Mais Exames Inadequados de Cada Setor</h2>
+    <div class="table-responsive bg-light shadow-sm rounded">
+        <table id="funcionariosTabela" class="table table-hover table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Setor</th>
+                <th>Funcionário</th>
+                <th>Quantidade de Exames Inadequados</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Função para obter os dados de exames inadequados por setor
+    async function fetchExamesInadequados() {
+        const response = await fetch('/dashboard/exames-inadequados');
+        const data = await response.json();
+
+        // Extraindo os dados para o gráfico
+        const setores = data.map(item => item.setorNome);
+        const quantExamesInadequados = data.map(item => item.quantExamesInadequados);
+
+        // Criando o gráfico de Exames Inadequados por Setor
+        const ctx = document.getElementById('chartExames').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',  // Tipo de gráfico (barra)
+            data: {
+                labels: setores,  // Rótulos (setores)
+                datasets: [{
+                    label: 'Exames Inadequados',
+                    data: quantExamesInadequados,  // Dados (quantidade de exames inadequados)
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',  // Cor de fundo das barras
+                    borderColor: 'rgba(255, 99, 132, 1)',  // Cor das bordas das barras
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Função para obter os dados de funcionários com mais exames inadequados
+    async function fetchFuncionariosMaisInadequados() {
+        const response = await fetch('/dashboard/funcionarios-com-mais-exames-inadequados');
+        const data = await response.json();
+
+        const setores = data.map(item => item.setorNome);
+        const funcionarios = data.map(item => item.funcionarioNome);
+        const quantExamesInadequados = data.map(item => item.quantExamesInadequados);
+
+        // Preenchendo a tabela com os dados de Funcionários com Mais Exames Inadequados
+        const tabela = document.getElementById('funcionariosTabela').getElementsByTagName('tbody')[0];
+        data.forEach(item => {
+            const row = tabela.insertRow();
+            const cellSetor = row.insertCell(0);
+            const cellFuncionario = row.insertCell(1);
+            const cellQuantidade = row.insertCell(2);
+
+            cellSetor.textContent = item.setorNome;
+            cellFuncionario.textContent = item.funcionarioNome;
+            cellQuantidade.textContent = item.quantExamesInadequados;
+        });
+    }
+
+    fetchExamesInadequados();
+    fetchFuncionariosMaisInadequados();
+</script>
 
 </body>
 </html>
