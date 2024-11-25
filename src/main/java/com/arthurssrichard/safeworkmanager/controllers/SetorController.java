@@ -114,4 +114,27 @@ public class SetorController {
             return new ModelAndView("redirect:/setores");
         }
     }
+
+    @PostMapping("/{id}")
+    public ModelAndView update(@Valid SetorDTO setorDTO, BindingResult bindingResult, @PathVariable int id){
+        if(bindingResult.hasErrors()){
+            ModelAndView mv = new ModelAndView("/setores/edit");
+            mv.addObject("setorId", id);
+            return mv;
+        }
+
+        Optional<Setor> opt = this.setorRepository.findById(id);
+        if(opt.isPresent()){
+            Usuario usuario = usuarioService.getLoggedUser();
+
+            Setor setor = opt.get();
+            setor.setEmpresa(usuario.getEmpresa());
+            setor.setDescricao(setorDTO.getDescricao());
+            setor.setNome(setorDTO.getNome());
+            setorRepository.save(setor);
+        }else{
+            System.out.println("Falha, id do setor não encontrado");
+        }
+        return new ModelAndView("redirect:/setores");
+    }
 }

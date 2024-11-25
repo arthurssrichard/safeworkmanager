@@ -1,4 +1,4 @@
-<main class="container" th:fragment="form(setorDTO, action)">
+<main class="container" th:fragment="form(setorDTO, action, string)">
     <div class="row mt-4">
         <div class="col-12">
             <form th:object="${setorDTO}" th:action="${action}" method="POST">
@@ -10,7 +10,7 @@
                     <label for="descricao" class="form-label">Descrição:</label>
                     <textarea th:field="*{descricao}" id="descricao" class="form-control" rows="4" placeholder="Digite a descrição do setor"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="submit" class="btn btn-primary" th:text="${string}">Cadastrar</button>
             </form>
         </div>
     </div>
