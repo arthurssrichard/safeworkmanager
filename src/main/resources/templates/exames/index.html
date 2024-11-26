@@ -17,9 +17,9 @@
         <tr th:each="exame : ${exames}">
             <th scope="col" th:text="${exame.id}"></th>
             <td th:title="${exame.descricao}">
-                <a th:text="${exame.nome}" th:href="@{exame/{id}(id = ${exame.id})}"></a></td>
-            <td><a th:href="@{exame/{id}/edit(id = ${exame.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
-            <td><a th:href="@{exame/{id}/delete(id = ${exame.id})}"><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
+                <a th:text="${exame.nome}" th:href="@{exames/{id}(id = ${exame.id})}"></a></td>
+            <td><a th:href="@{exames/{id}/edit(id = ${exame.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
+            <td><a th:href="@{exames/{id}/delete(id = ${exame.id})}"><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
         </tr>
         </tbody>
     </table>

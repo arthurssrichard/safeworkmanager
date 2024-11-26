@@ -1,5 +1,7 @@
 package com.arthurssrichard.safeworkmanager.dtos;
 
+import com.arthurssrichard.safeworkmanager.models.Cargo;
+import com.arthurssrichard.safeworkmanager.models.ItemExame;
 import com.arthurssrichard.safeworkmanager.models.TipoDado;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
@@ -8,8 +10,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 public class ExameDTO {
+    private int id;
     private String nome;
     private String descricao;
     private List<String> nomeDadoNumerico;
@@ -19,6 +23,8 @@ public class ExameDTO {
     private List<String> nomeDadoBooleano;
     private List<String> resultadoBooleanoEsperado;
     private List<Integer> cargos;
+    private Set<Cargo> cargosEdit;
+    private Set<ItemExame> itensExameEdit;
 
     public String getNome() {
         return nome;
@@ -82,5 +88,29 @@ public class ExameDTO {
 
     public void setCargos(List<Integer> cargos) {
         this.cargos = cargos;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Set<Cargo> getCargosEdit() {
+        return cargosEdit;
+    }
+
+    public void setCargosEdit(Set<Cargo> cargosEdit) {
+        this.cargosEdit = cargosEdit;
+    }
+
+    public Set<ItemExame> getItensExameEdit() {
+        return itensExameEdit;
+    }
+
+    public void setItensExameEdit(Set<ItemExame> itensExameEdit) {
+        this.itensExameEdit = itensExameEdit;
     }
 }

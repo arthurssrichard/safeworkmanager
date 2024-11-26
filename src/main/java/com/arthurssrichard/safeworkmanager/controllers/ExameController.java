@@ -8,19 +8,15 @@ import com.arthurssrichard.safeworkmanager.repositories.ExameRepository;
 import com.arthurssrichard.safeworkmanager.repositories.ItemExameRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/exames")
@@ -71,15 +67,6 @@ public class ExameController {
 
         List<Cargo> cargos = cargoRepository.findAllById(exameDTO.getCargos());
 
-        /*debug*/
-//        for(int i = 0; i < nomesBooleanos.size(); i++){
-//            if(nomesBooleanos.get(i) != null){
-//                System.out.printf("Dado: %s | Esperado: %s \n",nomesBooleanos.get(i),resultadosBooleanosEsperados.get(i));
-//            }
-//        }
-//        for(int i = 0; i < nomesNumericos.size(); i++){
-//            System.out.printf("Dado: %s | Min: %s | Max: %s \n",nomesNumericos.get(i),minimosEsperados.get(i),maximosEsperados.get(i));
-//        }
         Usuario usuario = usuarioService.getLoggedUser();
 
         if(usuario != null){
@@ -123,6 +110,91 @@ public class ExameController {
 
             System.out.print("Novo exame salvo com sucesso ****************************************************");
         }
+
+        return new ModelAndView("redirect:/exames");
+    }
+
+    @GetMapping("/{exameId}/edit")
+    public ModelAndView edit(@PathVariable int exameId, ExameDTO exameDTO) {
+        ModelAndView mv = new ModelAndView("redirect:/exames/"+exameId);
+
+        return mv;
+    }
+
+    @GetMapping("/{exameId}")
+    public ModelAndView show(@PathVariable int exameId, ExameDTO exameDTO) {
+        ModelAndView mv = new ModelAndView("exames/show");
+
+        Optional<Exame> optExame = exameRepository.findById(exameId);
+        if (optExame.isEmpty()) {
+            return new ModelAndView("redirect:/exames"); // tratamento de erro
+        }
+
+        Exame exame = optExame.get();
+        exameDTO.setNome(exame.getNome());
+        exameDTO.setDescricao(exame.getDescricao());
+        exameDTO.setCargosEdit(exame.getCargos());
+        exameDTO.setItensExameEdit(exame.getItensExame());
+
+        mv.addObject("exameDTO", exameDTO);
+        return mv;
+    }
+
+
+    @PostMapping("/{exameId}")
+    public ModelAndView update(@PathVariable int exameId, @Valid ExameDTO exameDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("redirect:/exames/" + exameId + "/edit");
+        }
+
+        Optional<Exame> optExame = exameRepository.findById(exameId);
+        if (optExame.isEmpty()) {
+            // tratamento de erro
+            return new ModelAndView("redirect:/exames");
+        }
+
+        Exame exame = optExame.get();
+        exame.setNome(exameDTO.getNome());
+        exame.setDescricao(exameDTO.getDescricao());
+
+        // Atualizando cargos associados ao exame
+        List<Cargo> cargos = cargoRepository.findAllById(exameDTO.getCargos());
+        exame.setCargos(new HashSet<>(cargos));
+
+        // Atualizando itens de exame (primeiro remover os antigos)
+        itemExameRepository.deleteAll(exame.getItensExame());
+        exame.getItensExame().clear();
+
+        // Recriando itens
+        List<String> nomesNumericos = exameDTO.getNomeDadoNumerico();
+        List<Double> maximosEsperados = exameDTO.getMaximoEsperado();
+        List<Double> minimosEsperados = exameDTO.getMinimoEsperado();
+
+        List<String> nomesBooleanos = exameDTO.getNomeDadoBooleano();
+        List<String> resultadosBooleanosEsperados = exameDTO.getResultadoBooleanoEsperado();
+
+        // Processando itens de resultado booleano
+        if (nomesBooleanos != null) {
+            for (int i = 0; i < nomesBooleanos.size(); i++) {
+                if (nomesBooleanos.get(i) != null) {
+                    boolean resultadoEsperado = resultadosBooleanosEsperados.get(i).equalsIgnoreCase("true");
+                    ItemExame novoItem = new ItemExame(exame.getEmpresa(), exame, nomesBooleanos.get(i), TipoDado.BOOLEANO, resultadoEsperado);
+                    exame.getItensExame().add(novoItem);
+                }
+            }
+        }
+
+        // Processando itens de resultado numérico
+        if (nomesNumericos != null) {
+            for (int i = 0; i < nomesNumericos.size(); i++) {
+                if (nomesNumericos.get(i) != null) {
+                    ItemExame novoItem = new ItemExame(exame.getEmpresa(), exame, nomesNumericos.get(i), TipoDado.NUMERICO, minimosEsperados.get(i), maximosEsperados.get(i));
+                    exame.getItensExame().add(novoItem);
+                }
+            }
+        }
+
+        exameRepository.save(exame);
 
         return new ModelAndView("redirect:/exames");
     }
