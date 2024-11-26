@@ -5,21 +5,21 @@
 <body>
 <hr>
 <main class="container mt-4">
-    <h2 class="mb-4">Exames Inadequados por Setor</h2>
+    <h2 class="mb-4">Exames inadequados por setor</h2>
     <div class="row">
         <div class="col-12 col-md-8 bg-light shadow-sm rounded">
             <canvas id="chartExames" width="400" height="200"></canvas>
         </div>
     </div>
 
-    <h2 class="mt-5 mb-4">Funcionários com Mais Exames Inadequados de Cada Setor</h2>
+    <h2 class="mt-5 mb-4">Funcionários com mais dados inadequados de cada setor</h2>
     <div class="table-responsive bg-light shadow-sm rounded">
         <table id="funcionariosTabela" class="table table-hover table-bordered">
             <thead class="thead-dark">
             <tr>
                 <th>Setor</th>
                 <th>Funcionário</th>
-                <th>Quantidade de Exames Inadequados</th>
+                <th>Quantidade de dados inadequados</th>
             </tr>
             </thead>
             <tbody></tbody>
@@ -44,7 +44,7 @@
             data: {
                 labels: setores,  // Rótulos (setores)
                 datasets: [{
-                    label: 'Exames Inadequados',
+                    label: 'Dados inadequados',
                     data: quantExamesInadequados,  // Dados (quantidade de exames inadequados)
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',  // Cor de fundo das barras
                     borderColor: 'rgba(255, 99, 132, 1)',  // Cor das bordas das barras
