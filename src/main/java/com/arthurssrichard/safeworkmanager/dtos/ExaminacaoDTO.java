@@ -6,22 +6,16 @@ import java.util.List;
 public class ExaminacaoDTO {
 
 
-    private List<String> nomesDados;
+
     private List<Double> resultadoNumerico;
     private List<String> resultadoBooleano;
-    private List<String> nomesNumericos;
-    private List<String> nomesBooleanos;
+    private List<Integer> idsNumericos;
+    private List<Integer> idsBooleanos;
+
+
     private int idExame;
     public LocalDate dataRealizada;
 
-
-    public List<String> getNomesDados() {
-        return nomesDados;
-    }
-
-    public void setNomesDados(List<String> nomesDados) {
-        this.nomesDados = nomesDados;
-    }
 
     public List<Double> getResultadoNumerico() {
         return resultadoNumerico;
@@ -47,21 +41,6 @@ public class ExaminacaoDTO {
         this.idExame = idExame;
     }
 
-    public List<String> getNomesNumericos() {
-        return nomesNumericos;
-    }
-
-    public void setNomesNumericos(List<String> nomesNumericos) {
-        this.nomesNumericos = nomesNumericos;
-    }
-
-    public List<String> getNomesBooleanos() {
-        return nomesBooleanos;
-    }
-
-    public void setNomesBooleanos(List<String> nomesBooleanos) {
-        this.nomesBooleanos = nomesBooleanos;
-    }
 
     public LocalDate getDataRealizada() {
         return dataRealizada;
@@ -69,5 +48,21 @@ public class ExaminacaoDTO {
 
     public void setDataRealizada(LocalDate dataRealizada) {
         this.dataRealizada = dataRealizada;
+    }
+
+    public List<Integer> getIdsNumericos() {
+        return idsNumericos;
+    }
+
+    public void setIdsNumericos(List<Integer> idsNumericos) {
+        this.idsNumericos = idsNumericos;
+    }
+
+    public List<Integer> getIdsBooleanos() {
+        return idsBooleanos;
+    }
+
+    public void setIdsBooleanos(List<Integer> idsBooleanos) {
+        this.idsBooleanos = idsBooleanos;
     }
 }

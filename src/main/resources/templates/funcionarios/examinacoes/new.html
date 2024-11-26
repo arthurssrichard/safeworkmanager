@@ -23,8 +23,7 @@
                             th:type="${item.tipoDado.toString() == 'NUMERICO' ? 'number' : 'checkbox'}"
                             th:name="${item.tipoDado.toString() == 'NUMERICO' ? ('resultadoNumerico[]') : ('resultadoBooleano[]')}"
                             th:placeholder="${item.tipoDado.toString() == 'NUMERICO' ? 'Entre '+item.resultadoValorMinimo+' e '+item.resultadoValorMaximo : ''}">
-
-                    <input type="hidden" th:name="${(item.tipoDado.toString() == 'NUMERICO') ? 'nomesNumericos[]': 'nomesBooleanos[]'}" th:value="${item.nomeDado}">
+                    <input type="hidden" th:name="${(item.tipoDado.toString() == 'NUMERICO') ? 'idsNumericos[]': 'idsBooleanos[]'}" th:value="${item.id}">
 
                     <small th:text="${item.tipoDado.toString() == 'BOOLEANO' ? 'Esperado: '+(item.resultadoBooleano ? 'Sim' : 'Não') : ''}"
                             th:classappend="text-muted"></small>

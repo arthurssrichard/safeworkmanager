@@ -29,7 +29,6 @@ public class ItemExame {
     private Double resultadoValorMaximo;
     private boolean resultadoBooleano;
 
-
     public ItemExame() {}
 
     public ItemExame(Empresa empresa, Exame exame, String nomeDado, TipoDado tipoDado, boolean resultadoBooleano) {

@@ -25,6 +25,10 @@ public class ItemExaminacao {
     private Double resultadoNumerico;
     private Boolean resultadoBooleano;
 
+    @ManyToOne
+    @JoinColumn(name="item_exame_id")
+    private ItemExame itemExame;
+
     public int getId() {
         return id;
     }
@@ -79,5 +83,13 @@ public class ItemExaminacao {
 
     public void setResultadoBooleano(Boolean resultadoBooleano) {
         this.resultadoBooleano = resultadoBooleano;
+    }
+
+    public ItemExame getItemExame() {
+        return itemExame;
+    }
+
+    public void setItemExame(ItemExame itemExame) {
+        this.itemExame = itemExame;
     }
 }

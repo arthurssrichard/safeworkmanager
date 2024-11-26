@@ -62,10 +62,10 @@ public class ExaminacaoController {
         ModelAndView mv = new ModelAndView("redirect:/funcionarios/"+funId);
         Usuario usuario = usuarioService.getLoggedUser();
         List<Double> numericos = examinacaoDTO.getResultadoNumerico();
-        List<String> nomesNumericos = examinacaoDTO.getNomesNumericos();
+        List<Integer> idsNumericos = examinacaoDTO.getIdsNumericos();
 
         List<String> booleanos = examinacaoDTO.getResultadoBooleano();
-        List<String> nomesBooleanos = examinacaoDTO.getNomesBooleanos();
+        List<Integer> idsBooleanos = examinacaoDTO.getIdsBooleanos();
 
         Examinacao examinacao = new Examinacao();
         examinacao.setDataRealizada(examinacaoDTO.getDataRealizada());
@@ -83,10 +83,14 @@ public class ExaminacaoController {
         /* iniciando preenchimento dos campos */
         // BOOLEANOS
         if(booleanos != null){//verificar se tem algum checkbox selecionado na examinacao
-            for (int i = 0; i < nomesBooleanos.size(); i++) {
+            for (int i = 0; i < idsBooleanos.size(); i++) {
                     ItemExaminacao itemExaminacao = new ItemExaminacao();
                     itemExaminacao.setTipoDado(TipoDado.BOOLEANO);
-                    itemExaminacao.setNomeDado(nomesBooleanos.get(i));
+
+                    Optional<ItemExame> opt = itemExameRepository.findById(idsBooleanos.get(i));
+                    itemExaminacao.setNomeDado(opt.get().getNomeDado());
+                    itemExaminacao.setItemExame(opt.get());
+
                     itemExaminacao.setEmpresa(usuario.getEmpresa());
                     itemExaminacao.setExaminacao(examinacao);
 
@@ -100,11 +104,15 @@ public class ExaminacaoController {
                 itemExaminacaoRepository.save(itemExaminacao);
                 }
         }else{//caso nao tenha nenhuma checkbox selecionada
-            if(nomesBooleanos != null){
-                for(int i = 0; i < nomesBooleanos.size(); i++){
+            if(idsBooleanos != null){
+                for(int i = 0; i < idsBooleanos.size(); i++){
                     ItemExaminacao itemExaminacao = new ItemExaminacao();
                     itemExaminacao.setTipoDado(TipoDado.BOOLEANO);
-                    itemExaminacao.setNomeDado(nomesBooleanos.get(i));
+
+                    Optional<ItemExame> opt = itemExameRepository.findById(idsBooleanos.get(i));
+                    itemExaminacao.setNomeDado(opt.get().getNomeDado());
+                    itemExaminacao.setItemExame(opt.get());
+
                     itemExaminacao.setResultadoBooleano(false);
                     itemExaminacao.setEmpresa(usuario.getEmpresa());
                     itemExaminacao.setExaminacao(examinacao);
@@ -117,11 +125,16 @@ public class ExaminacaoController {
 
         // NUMERICOS
         if(numericos != null){
-            for(int i = 0; i < nomesNumericos.size(); i++){
+            for(int i = 0; i < idsNumericos.size(); i++){
                 ItemExaminacao itemExaminacao = new ItemExaminacao();
                 itemExaminacao.setTipoDado(TipoDado.NUMERICO);
-                itemExaminacao.setNomeDado(nomesNumericos.get(i));
+
                 itemExaminacao.setResultadoNumerico(numericos.get(i));
+
+                Optional<ItemExame> opt = itemExameRepository.findById(idsNumericos.get(i));
+                itemExaminacao.setItemExame(opt.get());
+                itemExaminacao.setNomeDado(opt.get().getNomeDado());
+
                 itemExaminacao.setEmpresa(usuario.getEmpresa());
                 itemExaminacao.setExaminacao(examinacao);
                 itemExaminacaoRepository.save(itemExaminacao);
