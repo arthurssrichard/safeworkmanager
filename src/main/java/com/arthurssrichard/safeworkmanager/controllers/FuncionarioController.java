@@ -11,6 +11,7 @@ import com.arthurssrichard.safeworkmanager.repositories.FuncionarioRepository;
 import com.arthurssrichard.safeworkmanager.repositories.SetorRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -105,6 +106,17 @@ public class FuncionarioController {
 
         mv.addObject("funcionario",funcionario);
         mv.addObject("exames",exames);
+        return mv;
+    }
+
+    @GetMapping("/{id}/delete")
+    public ModelAndView delete(@PathVariable Integer id){
+        ModelAndView mv = new ModelAndView("redirect:/funcionarios");
+        try{
+            funcionarioRepository.deleteById(id);
+        }catch(EmptyResultDataAccessException e){
+            System.out.println("Erro ao deletar funcionário: " + e.getMessage());
+        }
         return mv;
     }
 
