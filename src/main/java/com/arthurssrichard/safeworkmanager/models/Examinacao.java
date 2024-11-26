@@ -68,4 +68,12 @@ public class Examinacao {
     public void setDataRealizada(LocalDate dataRealizada) {
         this.dataRealizada = dataRealizada;
     }
+
+    public List<ItemExaminacao> getItemExaminacaoList() {
+        return itemExaminacaoList;
+    }
+
+    public void setItemExaminacaoList(List<ItemExaminacao> itemExaminacaoList) {
+        this.itemExaminacaoList = itemExaminacaoList;
+    }
 }

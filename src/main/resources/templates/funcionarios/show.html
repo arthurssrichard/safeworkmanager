@@ -4,22 +4,28 @@
 <header th:replace="~{fragmentos :: header('Funcionario '+ ${funcionario.nome})}"></header>
 <body>
     <main class="container">
-        <div class="row">
+        <div class="row p-1 rounded shadow-sm mb-5">
             <h3>Examinações realizadas:</h3>
             <table class="table table-hover">
                 <thead>
                 <th scope="col">ID</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Data</th>
-                <th scope="col">Editar</th>
+                <th scope="col">Exame</th>
+                <th scope="col">Data Realizada</th>
+                <th scope="col">Visualizar</th>
                 <th scope="col">Apagar</th>
                 </thead>
                 <tbody>
-
+                    <tr th:each="examinacao : ${funcionario.examinacoes}">
+                        <td th:text="${examinacao.id}"></td>
+                        <td th:text="${examinacao.exame.nome}"></td>
+                        <td th:text="${examinacao.dataRealizada}"></td>
+                        <td><a th:href="@{/funcionarios/{funId}/examinacoes/{exId}(funId = ${funcionario.id}, exId = ${examinacao.id})}"><ion-icon class="btn btn-info" name="eye-outline"></ion-icon></a></td>
+                        <td><a onclick="alert('Em desenvolvimento')"><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-        <div class="row">
+        <div class="row p-1 rounded shadow-sm">
             <h3>Exames associados <span class="text-muted">(<span th:text="${funcionario.cargo.nome}"></span>)</span></h3>
             <table class="table table-hover">
                 <thead>

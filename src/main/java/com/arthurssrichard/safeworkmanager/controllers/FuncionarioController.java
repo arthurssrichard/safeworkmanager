@@ -5,10 +5,7 @@ import com.arthurssrichard.safeworkmanager.dtos.FuncionarioDTO;
 import com.arthurssrichard.safeworkmanager.dtos.RiscoDTO;
 import com.arthurssrichard.safeworkmanager.dtos.SetorDTO;
 import com.arthurssrichard.safeworkmanager.models.*;
-import com.arthurssrichard.safeworkmanager.repositories.CargoRepository;
-import com.arthurssrichard.safeworkmanager.repositories.ExameRepository;
-import com.arthurssrichard.safeworkmanager.repositories.FuncionarioRepository;
-import com.arthurssrichard.safeworkmanager.repositories.SetorRepository;
+import com.arthurssrichard.safeworkmanager.repositories.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -44,7 +41,6 @@ public class FuncionarioController {
         List<Funcionario> funcionarios = funcionarioRepository.findByEmpresa(usuario.getEmpresa());
         ModelAndView mv = new ModelAndView("funcionarios/index");
         mv.addObject("funcionarios", funcionarios);
-
         return mv;
     }
 
@@ -103,7 +99,6 @@ public class FuncionarioController {
         ModelAndView mv = new ModelAndView("funcionarios/show");
 
         List<Exame> exames = exameRepository.findByCargo(funcionario.getCargo());
-
         mv.addObject("funcionario",funcionario);
         mv.addObject("exames",exames);
         return mv;

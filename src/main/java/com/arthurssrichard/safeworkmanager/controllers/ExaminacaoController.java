@@ -36,6 +36,21 @@ public class ExaminacaoController {
     @Autowired
     private ExaminacaoRepository examinacaoRepository;
 
+    @GetMapping("/{exId}")
+    public ModelAndView show(@PathVariable int funId, @PathVariable int exId){
+        ModelAndView mv = new ModelAndView("funcionarios/examinacoes/show");
+        Optional<Examinacao> examinacaoOpt = examinacaoRepository.findById(exId);
+
+        if(examinacaoOpt.isEmpty()){
+            // tratamento de erro
+        }
+        Examinacao examinacao = examinacaoOpt.get();
+
+        mv.addObject("examinacao",examinacao);
+
+        return mv;
+    }
+
     @GetMapping("/{exId}/new")
     public ModelAndView nnew(@PathVariable int funId, @PathVariable int exId, ExaminacaoDTO examinacaoDTO) {
 

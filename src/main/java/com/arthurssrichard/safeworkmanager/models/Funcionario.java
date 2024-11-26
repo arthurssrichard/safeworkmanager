@@ -24,7 +24,7 @@ public class Funcionario {
     private Empresa empresa;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Examinacao> examinacao = new ArrayList<>();
+    private List<Examinacao> examinacoes = new ArrayList<>();
 
     @Column(nullable = false)
     private String nome;
@@ -89,5 +89,13 @@ public class Funcionario {
 
     public void setDataDemissao(LocalDate dataDemissao) {
         this.dataDemissao = dataDemissao;
+    }
+
+    public List<Examinacao> getExaminacoes() {
+        return examinacoes;
+    }
+
+    public void setExaminacoes(List<Examinacao> examinacoes) {
+        this.examinacoes = examinacoes;
     }
 }
