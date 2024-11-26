@@ -2,6 +2,9 @@ package com.arthurssrichard.safeworkmanager.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Setor {
     @Id
@@ -16,6 +19,9 @@ public class Setor {
     private String nome;
 
     private String descricao;
+
+    @OneToMany(mappedBy = "setor", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Funcionario> funcionarios = new ArrayList<>();
 
 
     public int getId() {

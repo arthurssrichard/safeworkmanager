@@ -11,6 +11,7 @@ import com.arthurssrichard.safeworkmanager.repositories.SetorRepository;
 import com.arthurssrichard.safeworkmanager.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -136,5 +137,18 @@ public class SetorController {
             System.out.println("Falha, id do setor não encontrado");
         }
         return new ModelAndView("redirect:/setores");
+    }
+
+    @GetMapping("/{id}/delete")
+    public ModelAndView delete(@PathVariable Integer id){
+        ModelAndView mv = new ModelAndView("redirect:/setores");
+
+        try{
+            this.setorRepository.deleteById(id);
+        }catch(EmptyResultDataAccessException e){
+            System.out.println("Erro ao deletar setor: "+ e);
+        }
+
+        return mv;
     }
 }

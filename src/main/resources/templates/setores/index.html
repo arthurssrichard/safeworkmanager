@@ -21,7 +21,9 @@
                            th:href="@{setores/{idSetor}(idSetor = ${setor.id})}"></a></td>
                     <td th:text="${setor.descricao}"></td>
                     <td><a th:href="@{setores/{idSetor}/edit(idSetor = ${setor.id})}"><ion-icon name="create-outline" class="btn btn-info"></ion-icon></a></td>
-                    <td><a th:href="@{setores/{idSetor}/delete(idSetor = ${setor.id})}"><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
+                    <td><a  onclick="return confirm('Tem certeza que deseja deletar esse setor? Todos os funcionários e suas examinações associadas serão excluídos')"
+                            th:href="@{setores/{idSetor}/delete(idSetor = ${setor.id})}"
+                            ><ion-icon name="trash-outline" class="btn btn-danger"></ion-icon></a></td>
 
                 </tr>
             </tbody>

@@ -2,6 +2,8 @@ package com.arthurssrichard.safeworkmanager.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Funcionario {
@@ -20,6 +22,9 @@ public class Funcionario {
     @ManyToOne
     @JoinColumn(name="empresa_id",nullable=false)
     private Empresa empresa;
+
+    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Examinacao> examinacao = new ArrayList<>();
 
     @Column(nullable = false)
     private String nome;

@@ -28,6 +28,7 @@ public class ItemExaminacao {
     @ManyToOne
     @JoinColumn(name="item_exame_id")
     private ItemExame itemExame;
+    
 
     public int getId() {
         return id;

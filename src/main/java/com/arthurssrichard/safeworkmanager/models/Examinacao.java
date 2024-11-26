@@ -3,6 +3,8 @@ package com.arthurssrichard.safeworkmanager.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Examinacao {
@@ -23,6 +25,9 @@ public class Examinacao {
     private Exame exame;
 
     private LocalDate dataRealizada;
+
+    @OneToMany(mappedBy = "examinacao", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ItemExaminacao> itemExaminacaoList = new ArrayList<>();
 
     public int getId() {
         return id;
